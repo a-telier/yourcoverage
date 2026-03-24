@@ -1,0 +1,160 @@
+{
+  "competitor": {
+    "name": "Maisons du Monde",
+    "instagram_username": "maisonsdumonde",
+    "instagram_url": "https://www.instagram.com/maisonsdumonde",
+    "website_url": "https://www.maisonsdumonde.com/FR/fr",
+    "color": "#d4a574"
+  },
+  "week": "2026-W11",
+  "collected_at": "2026-03-24T16:11:11.802225",
+  "instagram": {
+    "username": "maisonsdumonde",
+    "name": "Maisons du Monde",
+    "collected_at": "2026-03-24T16:11:11.802230",
+    "week": "2026-W11",
+    "source": "instagram",
+    "profile": {
+      "followers": 5919163,
+      "following": 410,
+      "posts_count": 6466,
+      "biography": "Meubles & D\u00e9coration d'int\u00e9rieur \u2013 Maisons du Monde \ud83c\udfe0",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_maisonsdumonde_2026-W11_0",
+        "url": "https://www.instagram.com/p/demo_maisonsdumonde_0/",
+        "timestamp": "2026-03-17T12:00:00",
+        "likes": 68699,
+        "comments": 191,
+        "caption": "Tapis en jute tress\u00e9 \u2014 esprit bord de mer",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "jute"
+          ],
+          "categories": [
+            "rugs"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_maisonsdumonde_2026-W11_1",
+        "url": "https://www.instagram.com/p/demo_maisonsdumonde_1/",
+        "timestamp": "2026-03-18T12:00:00",
+        "likes": 74822,
+        "comments": 307,
+        "caption": "Bureau en bois de manguier \u2014 travaillez avec style",
+        "is_video": true,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "wood"
+          ],
+          "categories": [],
+          "campaigns": [
+            "sale"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_maisonsdumonde_2026-W11_2",
+        "url": "https://www.instagram.com/p/demo_maisonsdumonde_2/",
+        "timestamp": "2026-03-19T12:00:00",
+        "likes": 67296,
+        "comments": 1175,
+        "caption": "Coussins en lin beige et terracotta pour votre salon",
+        "is_video": true,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "beige",
+            "brown"
+          ],
+          "materials": [
+            "linen"
+          ],
+          "categories": [
+            "living room"
+          ],
+          "campaigns": []
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "beige",
+        "brown"
+      ],
+      "top_materials": [
+        "jute",
+        "wood",
+        "linen"
+      ],
+      "top_categories": [
+        "rugs",
+        "living room"
+      ],
+      "campaigns": [
+        "sale"
+      ],
+      "color_detail": {
+        "beige": 1,
+        "brown": 1
+      },
+      "material_detail": {
+        "jute": 1,
+        "wood": 1,
+        "linen": 1
+      },
+      "category_detail": {
+        "rugs": 1,
+        "living room": 1
+      },
+      "campaign_detail": {
+        "sale": 1
+      }
+    },
+    "content_summary": "Focus: rugs, living room \u00b7 Colors: beige, brown \u00b7 Materials: jute, wood, linen \u00b7 Campaign: sale",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.maisonsdumonde.com/FR/fr",
+    "collected_at": "2026-03-24T16:11:11.802234",
+    "week": "2026-W11",
+    "source": "website",
+    "title": "Maisons du Monde",
+    "hero_texts": [
+      "Nouvelle Collection Printemps",
+      "Styles et Tendances",
+      "Le guide outdoor",
+      "Inspirations m\u00e9diterran\u00e9ennes",
+      "Soldes : jusqu'\u00e0 -50%"
+    ],
+    "campaign_banners": [
+      {
+        "text": "Collection Printemps 2026",
+        "url": "/collection/printemps/"
+      },
+      {
+        "text": "Inspiration M\u00e9diterran\u00e9e",
+        "url": "/inspiration/mediterranee/"
+      },
+      {
+        "text": "Soldes Maison",
+        "url": "/soldes/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

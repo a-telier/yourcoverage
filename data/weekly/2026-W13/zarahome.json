@@ -1,0 +1,183 @@
+{
+  "competitor": {
+    "name": "Zara Home",
+    "instagram_username": "zarahome",
+    "instagram_url": "https://www.instagram.com/zarahome",
+    "website_url": "https://www.zarahome.com/se/",
+    "color": "#c4a35a"
+  },
+  "week": "2026-W13",
+  "collected_at": "2026-03-24T16:11:11.797626",
+  "instagram": {
+    "username": "zarahome",
+    "name": "Zara Home",
+    "collected_at": "2026-03-24T16:11:11.797631",
+    "week": "2026-W13",
+    "source": "instagram",
+    "profile": {
+      "followers": 8382087,
+      "following": 183,
+      "posts_count": 6786,
+      "biography": "Decoration, Bed & Bath Linen, Tableware. Share your #zarahome moments.",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_zarahome_2026-W13_0",
+        "url": "https://www.instagram.com/p/demo_zarahome_0/",
+        "timestamp": "2026-03-31T12:00:00",
+        "likes": 41434,
+        "comments": 978,
+        "caption": "Scented candles: fig, cedar, amber. Set the mood.",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "decor"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W13_1",
+        "url": "https://www.instagram.com/p/demo_zarahome_1/",
+        "timestamp": "2026-03-32T12:00:00",
+        "likes": 52819,
+        "comments": 383,
+        "caption": "Linen curtains in soft grey \u2014 let the light in",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "grey"
+          ],
+          "materials": [
+            "linen"
+          ],
+          "categories": [
+            "curtains",
+            "decor"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W13_2",
+        "url": "https://www.instagram.com/p/demo_zarahome_2/",
+        "timestamp": "2026-03-33T12:00:00",
+        "likes": 32460,
+        "comments": 596,
+        "caption": "Handwoven jute rug \u2014 natural texture underfoot",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "natural"
+          ],
+          "materials": [
+            "jute"
+          ],
+          "categories": [
+            "rugs"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W13_3",
+        "url": "https://www.instagram.com/p/demo_zarahome_3/",
+        "timestamp": "2026-03-34T12:00:00",
+        "likes": 14358,
+        "comments": 400,
+        "caption": "New linen bedding collection in soft blue tones. #zarahome #linen #bedding",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "blue"
+          ],
+          "materials": [
+            "linen"
+          ],
+          "categories": [
+            "bedding"
+          ],
+          "campaigns": []
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "grey",
+        "natural",
+        "blue"
+      ],
+      "top_materials": [
+        "linen",
+        "jute"
+      ],
+      "top_categories": [
+        "decor",
+        "curtains",
+        "rugs",
+        "bedding"
+      ],
+      "campaigns": [],
+      "color_detail": {
+        "grey": 1,
+        "natural": 1,
+        "blue": 1
+      },
+      "material_detail": {
+        "linen": 2,
+        "jute": 1
+      },
+      "category_detail": {
+        "decor": 2,
+        "curtains": 1,
+        "rugs": 1,
+        "bedding": 1
+      },
+      "campaign_detail": {}
+    },
+    "content_summary": "Focus: decor, curtains, rugs \u00b7 Colors: grey, natural, blue \u00b7 Materials: linen, jute",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.zarahome.com/se/",
+    "collected_at": "2026-03-24T16:11:11.797634",
+    "week": "2026-W13",
+    "source": "website",
+    "title": "Zara Home",
+    "hero_texts": [
+      "New Collection",
+      "The Linen Edit",
+      "Spring Home",
+      "Bed & Bath",
+      "Join Life: Sustainable Choices"
+    ],
+    "campaign_banners": [
+      {
+        "text": "Linen Collection",
+        "url": "/collection/linen/"
+      },
+      {
+        "text": "Spring 2026",
+        "url": "/collection/spring/"
+      },
+      {
+        "text": "JOIN LIFE \u2014 Sustainable Home",
+        "url": "/sustainability/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "competitor": {
+    "name": "IKEA",
+    "instagram_username": "ikea",
+    "instagram_url": "https://www.instagram.com/ikea",
+    "website_url": "https://www.ikea.com/se/sv/",
+    "color": "#0058a3"
+  },
+  "week": "2026-W12",
+  "collected_at": "2026-03-24T16:11:11.799754",
+  "instagram": {
+    "username": "ikea",
+    "name": "IKEA",
+    "collected_at": "2026-03-24T16:11:11.799756",
+    "week": "2026-W12",
+    "source": "instagram",
+    "profile": {
+      "followers": 35211348,
+      "following": 370,
+      "posts_count": 5059,
+      "biography": "Making everyday life better for the many people. #IKEA",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_ikea_2026-W12_0",
+        "url": "https://www.instagram.com/p/demo_ikea_0/",
+        "timestamp": "2026-03-24T12:00:00",
+        "likes": 57350,
+        "comments": 791,
+        "caption": "SINNERLIG rattan pendant lamp \u2014 natural beauty overhead",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "natural"
+          ],
+          "materials": [
+            "rattan"
+          ],
+          "categories": [
+            "decor"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W12_1",
+        "url": "https://www.instagram.com/p/demo_ikea_1/",
+        "timestamp": "2026-03-25T12:00:00",
+        "likes": 23131,
+        "comments": 1093,
+        "caption": "Organize your wardrobe with PAX system. Open plan, open mind.",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [],
+          "campaigns": [
+            "collaboration"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W12_2",
+        "url": "https://www.instagram.com/p/demo_ikea_2/",
+        "timestamp": "2026-03-26T12:00:00",
+        "likes": 11175,
+        "comments": 274,
+        "caption": "GLADOM tray table in blue \u2014 small but mighty",
+        "is_video": true,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "blue"
+          ],
+          "materials": [],
+          "categories": [
+            "tableware"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W12_3",
+        "url": "https://www.instagram.com/p/demo_ikea_3/",
+        "timestamp": "2026-03-27T12:00:00",
+        "likes": 25969,
+        "comments": 914,
+        "caption": "Earth Day: discover our sustainable cotton bedding range",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "cotton"
+          ],
+          "categories": [
+            "bedding"
+          ],
+          "campaigns": [
+            "sustainability"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W12_4",
+        "url": "https://www.instagram.com/p/demo_ikea_4/",
+        "timestamp": "2026-03-28T12:00:00",
+        "likes": 55432,
+        "comments": 831,
+        "caption": "STOCKHOLM rug in handwoven wool \u2014 craft meets comfort",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "wool"
+          ],
+          "categories": [
+            "rugs"
+          ],
+          "campaigns": []
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "natural",
+        "blue"
+      ],
+      "top_materials": [
+        "rattan",
+        "cotton",
+        "wool"
+      ],
+      "top_categories": [
+        "decor",
+        "tableware",
+        "bedding",
+        "rugs"
+      ],
+      "campaigns": [
+        "collaboration",
+        "sustainability"
+      ],
+      "color_detail": {
+        "natural": 1,
+        "blue": 1
+      },
+      "material_detail": {
+        "rattan": 1,
+        "cotton": 1,
+        "wool": 1
+      },
+      "category_detail": {
+        "decor": 1,
+        "tableware": 1,
+        "bedding": 1,
+        "rugs": 1
+      },
+      "campaign_detail": {
+        "collaboration": 1,
+        "sustainability": 1
+      }
+    },
+    "content_summary": "Focus: decor, tableware, bedding \u00b7 Colors: natural, blue \u00b7 Materials: rattan, cotton, wool \u00b7 Campaign: collaboration, sustainability",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.ikea.com/se/sv/",
+    "collected_at": "2026-03-24T16:11:11.799764",
+    "week": "2026-W12",
+    "source": "website",
+    "title": "IKEA",
+    "hero_texts": [
+      "Inspiration f\u00f6r ditt hem",
+      "V\u00e5rens nyheter",
+      "KALLAX \u2014 Ny i f\u00e4rg",
+      "H\u00e5llbart hemma",
+      "Sovrumsdr\u00f6mmar"
+    ],
+    "campaign_banners": [
+      {
+        "text": "V\u00e5rens nyheter",
+        "url": "/kampanj/vaarens-nyheter/"
+      },
+      {
+        "text": "IKEA Family erbjudanden",
+        "url": "/offers/ikea-family/"
+      },
+      {
+        "text": "H\u00e5llbarhet",
+        "url": "/this-is-ikea/sustainable-everyday/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

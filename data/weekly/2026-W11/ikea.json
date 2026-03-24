@@ -1,0 +1,154 @@
+{
+  "competitor": {
+    "name": "IKEA",
+    "instagram_username": "ikea",
+    "instagram_url": "https://www.instagram.com/ikea",
+    "website_url": "https://www.ikea.com/se/sv/",
+    "color": "#0058a3"
+  },
+  "week": "2026-W11",
+  "collected_at": "2026-03-24T16:11:11.799033",
+  "instagram": {
+    "username": "ikea",
+    "name": "IKEA",
+    "collected_at": "2026-03-24T16:11:11.799036",
+    "week": "2026-W11",
+    "source": "instagram",
+    "profile": {
+      "followers": 35247912,
+      "following": 399,
+      "posts_count": 6509,
+      "biography": "Making everyday life better for the many people. #IKEA",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_ikea_2026-W11_0",
+        "url": "https://www.instagram.com/p/demo_ikea_0/",
+        "timestamp": "2026-03-17T12:00:00",
+        "likes": 70435,
+        "comments": 860,
+        "caption": "New SOLLER\u00d6N outdoor furniture for your balcony garden",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "outdoor"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W11_1",
+        "url": "https://www.instagram.com/p/demo_ikea_1/",
+        "timestamp": "2026-03-18T12:00:00",
+        "likes": 65142,
+        "comments": 342,
+        "caption": "BJ\u00d6RKUDDEN bathroom textiles in organic cotton",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "cotton"
+          ],
+          "categories": [
+            "bathroom"
+          ],
+          "campaigns": [
+            "sustainability"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W11_2",
+        "url": "https://www.instagram.com/p/demo_ikea_2/",
+        "timestamp": "2026-03-19T12:00:00",
+        "likes": 37325,
+        "comments": 1199,
+        "caption": "HEMNES bed frame + LUKTJASMIN bedding \u2014 dreamy bedroom combo",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "bedding",
+            "decor"
+          ],
+          "campaigns": [
+            "sale"
+          ]
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [],
+      "top_materials": [
+        "cotton"
+      ],
+      "top_categories": [
+        "outdoor",
+        "bathroom",
+        "bedding",
+        "decor"
+      ],
+      "campaigns": [
+        "sustainability",
+        "sale"
+      ],
+      "color_detail": {},
+      "material_detail": {
+        "cotton": 1
+      },
+      "category_detail": {
+        "outdoor": 1,
+        "bathroom": 1,
+        "bedding": 1,
+        "decor": 1
+      },
+      "campaign_detail": {
+        "sustainability": 1,
+        "sale": 1
+      }
+    },
+    "content_summary": "Focus: outdoor, bathroom, bedding \u00b7 Materials: cotton \u00b7 Campaign: sustainability, sale",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.ikea.com/se/sv/",
+    "collected_at": "2026-03-24T16:11:11.799040",
+    "week": "2026-W11",
+    "source": "website",
+    "title": "IKEA",
+    "hero_texts": [
+      "Inspiration f\u00f6r ditt hem",
+      "V\u00e5rens nyheter",
+      "KALLAX \u2014 Ny i f\u00e4rg",
+      "H\u00e5llbart hemma",
+      "Sovrumsdr\u00f6mmar"
+    ],
+    "campaign_banners": [
+      {
+        "text": "V\u00e5rens nyheter",
+        "url": "/kampanj/vaarens-nyheter/"
+      },
+      {
+        "text": "IKEA Family erbjudanden",
+        "url": "/offers/ikea-family/"
+      },
+      {
+        "text": "H\u00e5llbarhet",
+        "url": "/this-is-ikea/sustainable-everyday/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "competitor": {
+    "name": "IKEA",
+    "instagram_username": "ikea",
+    "instagram_url": "https://www.instagram.com/ikea",
+    "website_url": "https://www.ikea.com/se/sv/",
+    "color": "#0058a3"
+  },
+  "week": "2026-W10",
+  "collected_at": "2026-03-24T16:11:11.798278",
+  "instagram": {
+    "username": "ikea",
+    "name": "IKEA",
+    "collected_at": "2026-03-24T16:11:11.798280",
+    "week": "2026-W10",
+    "source": "instagram",
+    "profile": {
+      "followers": 35224341,
+      "following": 467,
+      "posts_count": 5577,
+      "biography": "Making everyday life better for the many people. #IKEA",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_ikea_2026-W10_0",
+        "url": "https://www.instagram.com/p/demo_ikea_0/",
+        "timestamp": "2026-03-10T12:00:00",
+        "likes": 40382,
+        "comments": 1190,
+        "caption": "KALLAX shelf unit \u2014 endless storage possibilities. Now in new colors!",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "storage"
+          ],
+          "campaigns": [
+            "collaboration"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W10_1",
+        "url": "https://www.instagram.com/p/demo_ikea_1/",
+        "timestamp": "2026-03-11T12:00:00",
+        "likes": 47504,
+        "comments": 164,
+        "caption": "Spring bedroom makeover with \u00c4NGSLILJA duvet cover in white cotton",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "white"
+          ],
+          "materials": [
+            "cotton"
+          ],
+          "categories": [
+            "bedding"
+          ],
+          "campaigns": [
+            "seasonal"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W10_2",
+        "url": "https://www.instagram.com/p/demo_ikea_2/",
+        "timestamp": "2026-03-12T12:00:00",
+        "likes": 9207,
+        "comments": 696,
+        "caption": "Small space, big style: S\u00d6DERHAMN sofa for compact living rooms",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "living room"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W10_3",
+        "url": "https://www.instagram.com/p/demo_ikea_3/",
+        "timestamp": "2026-03-13T12:00:00",
+        "likes": 13675,
+        "comments": 482,
+        "caption": "VARDAGEN kitchen series \u2014 everything you need for everyday cooking",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "kitchen"
+          ],
+          "campaigns": []
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "white"
+      ],
+      "top_materials": [
+        "cotton"
+      ],
+      "top_categories": [
+        "storage",
+        "bedding",
+        "living room",
+        "kitchen"
+      ],
+      "campaigns": [
+        "collaboration",
+        "seasonal"
+      ],
+      "color_detail": {
+        "white": 1
+      },
+      "material_detail": {
+        "cotton": 1
+      },
+      "category_detail": {
+        "storage": 1,
+        "bedding": 1,
+        "living room": 1,
+        "kitchen": 1
+      },
+      "campaign_detail": {
+        "collaboration": 1,
+        "seasonal": 1
+      }
+    },
+    "content_summary": "Focus: storage, bedding, living room \u00b7 Colors: white \u00b7 Materials: cotton \u00b7 Campaign: collaboration, seasonal",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.ikea.com/se/sv/",
+    "collected_at": "2026-03-24T16:11:11.798284",
+    "week": "2026-W10",
+    "source": "website",
+    "title": "IKEA",
+    "hero_texts": [
+      "Inspiration f\u00f6r ditt hem",
+      "V\u00e5rens nyheter",
+      "KALLAX \u2014 Ny i f\u00e4rg",
+      "H\u00e5llbart hemma",
+      "Sovrumsdr\u00f6mmar"
+    ],
+    "campaign_banners": [
+      {
+        "text": "V\u00e5rens nyheter",
+        "url": "/kampanj/vaarens-nyheter/"
+      },
+      {
+        "text": "IKEA Family erbjudanden",
+        "url": "/offers/ikea-family/"
+      },
+      {
+        "text": "H\u00e5llbarhet",
+        "url": "/this-is-ikea/sustainable-everyday/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

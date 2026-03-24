@@ -1,0 +1,213 @@
+{
+  "competitor": {
+    "name": "Zara Home",
+    "instagram_username": "zarahome",
+    "instagram_url": "https://www.instagram.com/zarahome",
+    "website_url": "https://www.zarahome.com/se/",
+    "color": "#c4a35a"
+  },
+  "week": "2026-W12",
+  "collected_at": "2026-03-24T16:11:11.796220",
+  "instagram": {
+    "username": "zarahome",
+    "name": "Zara Home",
+    "collected_at": "2026-03-24T16:11:11.796226",
+    "week": "2026-W12",
+    "source": "instagram",
+    "profile": {
+      "followers": 8360458,
+      "following": 219,
+      "posts_count": 3827,
+      "biography": "Decoration, Bed & Bath Linen, Tableware. Share your #zarahome moments.",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_zarahome_2026-W12_0",
+        "url": "https://www.instagram.com/p/demo_zarahome_0/",
+        "timestamp": "2026-03-24T12:00:00",
+        "likes": 39671,
+        "comments": 138,
+        "caption": "New arrivals: silk pillowcases for better sleep",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "silk"
+          ],
+          "categories": [
+            "bedding"
+          ],
+          "campaigns": [
+            "new collection"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W12_1",
+        "url": "https://www.instagram.com/p/demo_zarahome_1/",
+        "timestamp": "2026-03-25T12:00:00",
+        "likes": 75284,
+        "comments": 305,
+        "caption": "Marble bathroom accessories \u2014 timeless elegance",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "stone"
+          ],
+          "categories": [
+            "bathroom"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W12_2",
+        "url": "https://www.instagram.com/p/demo_zarahome_2/",
+        "timestamp": "2026-03-26T12:00:00",
+        "likes": 54615,
+        "comments": 211,
+        "caption": "Outdoor dining collection: terracotta and natural wood",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "brown",
+            "natural"
+          ],
+          "materials": [
+            "wood"
+          ],
+          "categories": [
+            "kitchen",
+            "outdoor"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W12_3",
+        "url": "https://www.instagram.com/p/demo_zarahome_3/",
+        "timestamp": "2026-03-27T12:00:00",
+        "likes": 52400,
+        "comments": 443,
+        "caption": "Kids room refresh: cotton bedding in playful prints",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "cotton"
+          ],
+          "categories": [
+            "bedding",
+            "kids"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_zarahome_2026-W12_4",
+        "url": "https://www.instagram.com/p/demo_zarahome_4/",
+        "timestamp": "2026-03-28T12:00:00",
+        "likes": 11006,
+        "comments": 516,
+        "caption": "Scented candles: fig, cedar, amber. Set the mood.",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "decor"
+          ],
+          "campaigns": []
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "brown",
+        "natural"
+      ],
+      "top_materials": [
+        "silk",
+        "stone",
+        "wood",
+        "cotton"
+      ],
+      "top_categories": [
+        "bedding",
+        "bathroom",
+        "kitchen",
+        "outdoor",
+        "kids"
+      ],
+      "campaigns": [
+        "new collection"
+      ],
+      "color_detail": {
+        "brown": 1,
+        "natural": 1
+      },
+      "material_detail": {
+        "silk": 1,
+        "stone": 1,
+        "wood": 1,
+        "cotton": 1
+      },
+      "category_detail": {
+        "bedding": 2,
+        "bathroom": 1,
+        "kitchen": 1,
+        "outdoor": 1,
+        "kids": 1,
+        "decor": 1
+      },
+      "campaign_detail": {
+        "new collection": 1
+      }
+    },
+    "content_summary": "Focus: bedding, bathroom, kitchen \u00b7 Colors: brown, natural \u00b7 Materials: silk, stone, wood \u00b7 Campaign: new collection",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.zarahome.com/se/",
+    "collected_at": "2026-03-24T16:11:11.796230",
+    "week": "2026-W12",
+    "source": "website",
+    "title": "Zara Home",
+    "hero_texts": [
+      "New Collection",
+      "The Linen Edit",
+      "Spring Home",
+      "Bed & Bath",
+      "Join Life: Sustainable Choices"
+    ],
+    "campaign_banners": [
+      {
+        "text": "Linen Collection",
+        "url": "/collection/linen/"
+      },
+      {
+        "text": "Spring 2026",
+        "url": "/collection/spring/"
+      },
+      {
+        "text": "JOIN LIFE \u2014 Sustainable Home",
+        "url": "/sustainability/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "competitor": {
+    "name": "IKEA",
+    "instagram_username": "ikea",
+    "instagram_url": "https://www.instagram.com/ikea",
+    "website_url": "https://www.ikea.com/se/sv/",
+    "color": "#0058a3"
+  },
+  "week": "2026-W13",
+  "collected_at": "2026-03-24T16:11:11.800540",
+  "instagram": {
+    "username": "ikea",
+    "name": "IKEA",
+    "collected_at": "2026-03-24T16:11:11.800547",
+    "week": "2026-W13",
+    "source": "instagram",
+    "profile": {
+      "followers": 35216542,
+      "following": 154,
+      "posts_count": 5444,
+      "biography": "Making everyday life better for the many people. #IKEA",
+      "is_private": false
+    },
+    "posts": [
+      {
+        "shortcode": "demo_ikea_2026-W13_0",
+        "url": "https://www.instagram.com/p/demo_ikea_0/",
+        "timestamp": "2026-03-31T12:00:00",
+        "likes": 6504,
+        "comments": 284,
+        "caption": "STOCKHOLM rug in handwoven wool \u2014 craft meets comfort",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [
+            "wool"
+          ],
+          "categories": [
+            "rugs"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W13_1",
+        "url": "https://www.instagram.com/p/demo_ikea_1/",
+        "timestamp": "2026-03-32T12:00:00",
+        "likes": 75381,
+        "comments": 596,
+        "caption": "M\u00d6JLIGHET curtains \u2014 blackout for better sleep",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "black"
+          ],
+          "materials": [],
+          "categories": [
+            "curtains"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W13_2",
+        "url": "https://www.instagram.com/p/demo_ikea_2/",
+        "timestamp": "2026-03-33T12:00:00",
+        "likes": 49587,
+        "comments": 278,
+        "caption": "Cook together: METOD kitchen starting at 3495 kr",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "kitchen"
+          ],
+          "campaigns": []
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W13_3",
+        "url": "https://www.instagram.com/p/demo_ikea_3/",
+        "timestamp": "2026-03-34T12:00:00",
+        "likes": 25730,
+        "comments": 979,
+        "caption": "KALLAX shelf unit \u2014 endless storage possibilities. Now in new colors!",
+        "is_video": true,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [],
+          "materials": [],
+          "categories": [
+            "storage"
+          ],
+          "campaigns": [
+            "collaboration"
+          ]
+        }
+      },
+      {
+        "shortcode": "demo_ikea_2026-W13_4",
+        "url": "https://www.instagram.com/p/demo_ikea_4/",
+        "timestamp": "2026-03-35T12:00:00",
+        "likes": 39522,
+        "comments": 1075,
+        "caption": "Spring bedroom makeover with \u00c4NGSLILJA duvet cover in white cotton",
+        "is_video": false,
+        "image_url": "",
+        "thumbnail_path": null,
+        "themes": {
+          "colors": [
+            "white"
+          ],
+          "materials": [
+            "cotton"
+          ],
+          "categories": [
+            "bedding"
+          ],
+          "campaigns": [
+            "seasonal"
+          ]
+        }
+      }
+    ],
+    "theme_summary": {
+      "top_colors": [
+        "black",
+        "white"
+      ],
+      "top_materials": [
+        "wool",
+        "cotton"
+      ],
+      "top_categories": [
+        "rugs",
+        "curtains",
+        "kitchen",
+        "storage",
+        "bedding"
+      ],
+      "campaigns": [
+        "collaboration",
+        "seasonal"
+      ],
+      "color_detail": {
+        "black": 1,
+        "white": 1
+      },
+      "material_detail": {
+        "wool": 1,
+        "cotton": 1
+      },
+      "category_detail": {
+        "rugs": 1,
+        "curtains": 1,
+        "kitchen": 1,
+        "storage": 1,
+        "bedding": 1
+      },
+      "campaign_detail": {
+        "collaboration": 1,
+        "seasonal": 1
+      }
+    },
+    "content_summary": "Focus: rugs, curtains, kitchen \u00b7 Colors: black, white \u00b7 Materials: wool, cotton \u00b7 Campaign: collaboration, seasonal",
+    "error": null
+  },
+  "website": {
+    "url": "https://www.ikea.com/se/sv/",
+    "collected_at": "2026-03-24T16:11:11.800551",
+    "week": "2026-W13",
+    "source": "website",
+    "title": "IKEA",
+    "hero_texts": [
+      "Inspiration f\u00f6r ditt hem",
+      "V\u00e5rens nyheter",
+      "KALLAX \u2014 Ny i f\u00e4rg",
+      "H\u00e5llbart hemma",
+      "Sovrumsdr\u00f6mmar"
+    ],
+    "campaign_banners": [
+      {
+        "text": "V\u00e5rens nyheter",
+        "url": "/kampanj/vaarens-nyheter/"
+      },
+      {
+        "text": "IKEA Family erbjudanden",
+        "url": "/offers/ikea-family/"
+      },
+      {
+        "text": "H\u00e5llbarhet",
+        "url": "/this-is-ikea/sustainable-everyday/"
+      }
+    ],
+    "navigation_categories": [],
+    "promo_texts": [],
+    "error": null
+  }
+}
