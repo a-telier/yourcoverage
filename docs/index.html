@@ -33,18 +33,8 @@
             text-align: center;
             margin-bottom: 24px;
         }
-
-        .header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .header p {
-            font-size: 13px;
-            color: var(--muted);
-        }
-
+        .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .header p { font-size: 13px; color: var(--muted); }
         .badge {
             display: inline-block;
             background: rgba(88, 166, 255, 0.15);
@@ -56,294 +46,211 @@
             margin-top: 8px;
         }
 
-        /* Tab navigation */
+        /* Tabs */
         .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            display: flex; gap: 8px; margin-bottom: 20px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
         .tabs::-webkit-scrollbar { display: none; }
-
         .tab {
-            flex-shrink: 0;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--muted);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+            flex-shrink: 0; padding: 8px 16px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--card);
+            color: var(--muted); font-size: 14px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
         }
-
         .tab.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
+            background: var(--comp-color, var(--accent));
+            color: #fff; border-color: var(--comp-color, var(--accent));
         }
 
-        /* Overview cards */
+        /* View toggle */
+        .view-toggle {
+            display: flex; gap: 0; margin-bottom: 20px;
+            border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
+        }
+        .view-btn {
+            flex: 1; padding: 10px; text-align: center;
+            background: var(--card); color: var(--muted);
+            font-size: 13px; font-weight: 500; cursor: pointer;
+            border: none; transition: all 0.2s;
+        }
+        .view-btn.active { background: var(--accent); color: #fff; }
+        .view-btn + .view-btn { border-left: 1px solid var(--border); }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* Stats grid */
         .overview {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 10px; margin-bottom: 20px;
         }
-
         .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px;
         }
-
         .stat-card .label {
-            font-size: 11px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            font-size: 11px; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+        }
+        .stat-card .value { font-size: 22px; font-weight: 700; }
+
+        /* Content summary & themes */
+        .content-summary {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; margin-bottom: 20px;
+        }
+        .summary-text {
+            font-size: 14px; color: var(--text); margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .theme-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .theme-tag {
+            display: inline-block; font-size: 11px; font-weight: 600;
+            padding: 3px 10px; border-radius: 12px;
+        }
+        .color-tag { background: rgba(188,140,255,0.15); color: var(--purple); }
+        .material-tag { background: rgba(210,153,34,0.15); color: var(--orange); }
+        .category-tag { background: rgba(63,185,80,0.15); color: var(--green); }
+        .campaign-tag { background: rgba(248,81,73,0.15); color: var(--red); }
+
+        /* Post grid */
+        .post-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8px; margin-bottom: 20px;
+        }
+        .post-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 10px; overflow: hidden;
+            text-decoration: none; color: var(--text);
+            transition: transform 0.2s;
+        }
+        .post-card:active { transform: scale(0.97); }
+        .post-img {
+            width: 100%; padding-bottom: 100%;
+            background-size: cover; background-position: center;
+            background-color: var(--border); position: relative;
+        }
+        .video-badge {
+            position: absolute; top: 6px; right: 6px;
+            background: rgba(0,0,0,0.7); color: #fff;
+            font-size: 10px; padding: 2px 6px; border-radius: 4px;
+        }
+        .post-stats {
+            display: flex; justify-content: space-between;
+            padding: 6px 8px; font-size: 11px; color: var(--muted);
+        }
+        .post-theme {
+            padding: 0 8px 4px; font-size: 10px; color: var(--accent);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .post-caption {
+            padding: 0 8px 8px; font-size: 10px; color: var(--muted);
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+            line-height: 1.3;
         }
 
-        .stat-card .value {
-            font-size: 22px;
-            font-weight: 700;
+        /* Website section */
+        .website-info {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; margin-bottom: 20px;
+        }
+        .web-label {
+            font-size: 11px; color: var(--accent); text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600;
+        }
+        .web-hero-text {
+            font-size: 13px; color: var(--text); padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .web-heroes, .web-campaigns, .web-promos { margin-bottom: 12px; }
+        .web-campaign {
+            font-size: 12px; color: var(--orange); padding: 3px 0;
+        }
+        .web-promo-text {
+            font-size: 12px; color: var(--muted); padding: 4px 0;
+            line-height: 1.4;
+        }
+        .web-notice {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; margin-bottom: 20px;
+            color: var(--muted); font-size: 13px;
         }
 
-        .stat-card .change {
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        .change.up { color: var(--green); }
-        .change.down { color: var(--red); }
-
-        /* Section headers */
-        .section-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--muted);
-        }
-
-        /* Monthly table */
+        /* Table */
         .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 24px;
-            border-radius: 12px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            margin-bottom: 24px; border-radius: 12px;
             border: 1px solid var(--border);
         }
-
         table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            min-width: 500px;
+            width: 100%; border-collapse: collapse;
+            font-size: 13px; min-width: 550px;
         }
-
         thead th {
-            background: var(--card);
-            padding: 10px 12px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--muted);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: sticky;
-            top: 0;
+            background: var(--card); padding: 10px 12px;
+            text-align: left; font-weight: 600; color: var(--muted);
+            font-size: 11px; text-transform: uppercase;
+            letter-spacing: 0.5px; position: sticky; top: 0;
         }
-
         tbody td {
-            padding: 10px 12px;
-            border-top: 1px solid var(--border);
+            padding: 10px 12px; border-top: 1px solid var(--border);
         }
-
-        tbody tr:nth-child(even) {
-            background: rgba(255,255,255,0.02);
-        }
+        tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+        .no-data { color: var(--muted); font-style: italic; }
 
         .eng-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 12px;
+            display: inline-block; padding: 2px 8px;
+            border-radius: 10px; font-weight: 600; font-size: 12px;
         }
-
         .eng-high { background: rgba(63,185,80,0.15); color: var(--green); }
         .eng-mid { background: rgba(210,153,34,0.15); color: var(--orange); }
         .eng-low { background: rgba(248,81,73,0.15); color: var(--red); }
 
-        /* Bar chart */
-        .chart-section { margin-bottom: 24px; }
-
-        .bar-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            gap: 8px;
-        }
-
-        .bar-label {
-            width: 60px;
-            font-size: 12px;
-            color: var(--muted);
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        .bar-track {
-            flex: 1;
-            height: 24px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 6px;
-            transition: width 0.6s ease;
-            display: flex;
-            align-items: center;
-            padding-left: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .color-nike { background: linear-gradient(90deg, #ff6b35, #ff8c61); }
-        .color-adidas { background: linear-gradient(90deg, #58a6ff, #79b8ff); }
-        .color-puma { background: linear-gradient(90deg, #3fb950, #6fdd8b); }
-
-        /* Comparison section */
-        .comparison-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
+        /* Comparison cards */
+        .comparison-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .comp-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px;
         }
-
         .comp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 12px;
         }
-
-        .comp-name {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .comp-followers {
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .comp-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-        }
-
-        .comp-metric {
-            text-align: center;
-        }
-
-        .comp-metric .val {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
+        .comp-name { font-size: 16px; font-weight: 700; }
+        .comp-followers { font-size: 12px; color: var(--muted); }
+        .comp-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .comp-metric { text-align: center; }
+        .comp-metric .val { font-size: 16px; font-weight: 700; }
         .comp-metric .lbl {
-            font-size: 10px;
-            color: var(--muted);
-            text-transform: uppercase;
+            font-size: 10px; color: var(--muted); text-transform: uppercase;
         }
 
-        /* View toggles */
-        .view-toggle {
-            display: flex;
-            gap: 0;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border);
+        .section-title {
+            font-size: 15px; font-weight: 600;
+            margin-bottom: 12px; color: var(--muted);
         }
 
-        .view-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: var(--card);
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .view-btn.active {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .view-btn + .view-btn {
-            border-left: 1px solid var(--border);
-        }
-
-        /* Sections */
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-
-        /* Config preview */
-        .config-block {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .config-block pre {
-            font-size: 12px;
-            color: var(--muted);
-            white-space: pre-wrap;
-            word-break: break-all;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-            line-height: 1.5;
-        }
-
-        .config-block h3 {
-            font-size: 13px;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        /* Footer */
         .footer {
-            text-align: center;
-            padding: 20px 0;
-            color: var(--muted);
-            font-size: 12px;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
+            text-align: center; padding: 20px 0;
+            color: var(--muted); font-size: 12px;
+            border-top: 1px solid var(--border); margin-top: 20px;
+        }
+
+        /* Week selector */
+        .week-selector {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px 16px; margin-bottom: 20px;
+        }
+        .week-selector label {
+            font-size: 12px; color: var(--muted); margin-right: 8px;
+        }
+        .week-selector select {
+            background: var(--bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 6px;
+            padding: 6px 10px; font-size: 13px;
         }
     </style>
 </head>
@@ -351,734 +258,772 @@
 
 <div class="header">
     <h1>YourCoverage</h1>
-    <p>Instagram Competitor Analysis</p>
-    <span class="badge">SAMPLE DATA — Oct 2025 to Mar 2026</span>
+    <p>Instagram & Website Competitor Analysis</p>
+    <span class="badge">2026-W10 to 2026-W13 — Generated 2026-03-24</span>
 </div>
 
 <!-- View Toggle -->
 <div class="view-toggle">
     <button class="view-btn active" onclick="switchView('overview')">Overview</button>
-    <button class="view-btn" onclick="switchView('monthly')">Monthly</button>
-    <button class="view-btn" onclick="switchView('config')">Config</button>
+    <button class="view-btn" onclick="switchView('compare')">Compare</button>
 </div>
 
 <!-- OVERVIEW VIEW -->
 <div id="view-overview" class="view-section active">
-
-    <!-- Competitor tabs -->
     <div class="tabs" id="comp-tabs">
-        
-        <div class="tab active" onclick="selectCompetitor('nike', this)">
-            @nike
-        </div>
-        
-        <div class="tab " onclick="selectCompetitor('adidas', this)">
-            @adidas
-        </div>
-        
-        <div class="tab " onclick="selectCompetitor('puma', this)">
-            @puma
-        </div>
-        
+        <div class="tab active" onclick="selectCompetitor('zarahome', this)" style="--comp-color: #c4a35a">Zara Home</div>
+<div class="tab " onclick="selectCompetitor('ikea', this)" style="--comp-color: #0058a3">IKEA</div>
+<div class="tab " onclick="selectCompetitor('maisonsdumonde', this)" style="--comp-color: #d4a574">Maisons du Monde</div>
     </div>
-
-    <!-- Stats for selected competitor -->
     
-    <div class="competitor-panel" id="panel-nike" style="">
-
-        
-        
-
+    <div class="competitor-panel" id="panel-zarahome" style="display:block">
+        <!-- Summary stats -->
         <div class="overview">
             <div class="stat-card">
                 <div class="label">Followers</div>
-                <div class="value">307.0M</div>
+                <div class="value">8.4M</div>
             </div>
             <div class="stat-card">
-                <div class="label">Posts (Mar)</div>
-                <div class="value">12</div>
-                
-                <div class="change down">
-                    -4 vs Feb
-                </div>
+                <div class="label">Posts (4w)</div>
+                <div class="value">19</div>
             </div>
             <div class="stat-card">
                 <div class="label">Avg Likes</div>
-                <div class="value">76.7K</div>
+                <div class="value">40.1K</div>
             </div>
             <div class="stat-card">
                 <div class="label">Engagement</div>
-                <div class="value">3.21%</div>
-                
-                <div class="change up">
-                    +0.10pp vs Feb
-                </div>
+                <div class="value">0.48%</div>
             </div>
         </div>
 
-        <!-- Likes bar chart -->
-        <div class="section-title">Monthly Likes</div>
-        <div class="chart-section">
-            
-            
-            <div class="bar-row">
-                <div class="bar-label">Oct 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 77.0%">
-                        1.4M
-                    </div>
-                </div>
+        <!-- Content summary -->
+        <div class="content-summary">
+            <div class="section-title">Content Themes</div>
+            <div class="summary-text">Focus: bedding, decor, bathroom · Colors: natural, brown, blue · Materials: linen, cotton, silk · Campaign: new collection, seasonal</div>
+            <div class="theme-tags">
+                <span class="theme-tag color-tag">natural</span>
+<span class="theme-tag color-tag">brown</span>
+<span class="theme-tag color-tag">blue</span>
+<span class="theme-tag material-tag">linen</span>
+<span class="theme-tag material-tag">cotton</span>
+<span class="theme-tag material-tag">silk</span>
+<span class="theme-tag category-tag">bedding</span>
+<span class="theme-tag category-tag">decor</span>
+<span class="theme-tag category-tag">bathroom</span>
+<span class="theme-tag campaign-tag">new collection</span>
+<span class="theme-tag campaign-tag">seasonal</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Nov 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 65.0%">
-                        1.2M
-                    </div>
-                </div>
+        </div>
+
+        <!-- Post grid -->
+        <div class="section-title">Recent Posts</div>
+        <div class="post-grid">
+
+        <a href="https://www.instagram.com/p/demo_zarahome_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Dec 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 100.0%">
-                        1.9M
-                    </div>
-                </div>
+            <div class="post-stats">
+                <span>♥ 41.4K</span>
+                <span>💬 978</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Jan 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 83.0%">
-                        1.6M
-                    </div>
-                </div>
+            <div class="post-theme">decor</div>
+            <div class="post-caption">Scented candles: fig, cedar, amber. Set the mood.</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Feb 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 62.0%">
-                        1.2M
-                    </div>
-                </div>
+            <div class="post-stats">
+                <span>♥ 52.8K</span>
+                <span>💬 383</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Mar 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-nike" style="width: 49.0%">
-                        920.0K
-                    </div>
-                </div>
+            <div class="post-theme">curtains · decor · grey</div>
+            <div class="post-caption">Linen curtains in soft grey — let the light in</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
             </div>
-            
+            <div class="post-stats">
+                <span>♥ 32.5K</span>
+                <span>💬 596</span>
+            </div>
+            <div class="post-theme">rugs · natural</div>
+            <div class="post-caption">Handwoven jute rug — natural texture underfoot</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_3/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 14.4K</span>
+                <span>💬 400</span>
+            </div>
+            <div class="post-theme">bedding · blue</div>
+            <div class="post-caption">New linen bedding collection in soft blue tones. #zarahome #linen #bedding</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 39.7K</span>
+                <span>💬 138</span>
+            </div>
+            <div class="post-theme">bedding</div>
+            <div class="post-caption">New arrivals: silk pillowcases for better sleep</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 75.3K</span>
+                <span>💬 305</span>
+            </div>
+            <div class="post-theme">bathroom</div>
+            <div class="post-caption">Marble bathroom accessories — timeless elegance</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 54.6K</span>
+                <span>💬 211</span>
+            </div>
+            <div class="post-theme">kitchen · outdoor · brown</div>
+            <div class="post-caption">Outdoor dining collection: terracotta and natural wood</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_3/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 52.4K</span>
+                <span>💬 443</span>
+            </div>
+            <div class="post-theme">bedding · kids</div>
+            <div class="post-caption">Kids room refresh: cotton bedding in playful prints</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_zarahome_4/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 11.0K</span>
+                <span>💬 516</span>
+            </div>
+            <div class="post-theme">decor</div>
+            <div class="post-caption">Scented candles: fig, cedar, amber. Set the mood.</div>
+        </a>
+</div>
+
+        <!-- Website insights -->
+        <div class="section-title">Website Homepage</div>
+        <div class="website-info">
+<div class="web-heroes">
+<div class="web-label">Homepage Headlines</div>
+<div class="web-hero-text">New Collection</div>
+<div class="web-hero-text">The Linen Edit</div>
+<div class="web-hero-text">Spring Home</div>
+<div class="web-hero-text">Bed &amp; Bath</div>
+<div class="web-hero-text">Join Life: Sustainable Choices</div>
+</div>
+<div class="web-campaigns">
+<div class="web-label">Active Campaigns</div>
+<div class="web-campaign">Linen Collection</div>
+<div class="web-campaign">Spring 2026</div>
+<div class="web-campaign">JOIN LIFE — Sustainable Home</div>
+</div>
+</div>
+
+        <!-- Weekly breakdown table -->
+        <div class="section-title" style="margin-top: 20px;">Weekly Breakdown</div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Posts</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>Eng.</th>
+                        <th>Theme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>2026-W13</td>
+                    <td>4</td>
+                    <td>141.1K</td>
+                    <td>2.4K</td>
+                    <td><span class="eng-badge eng-low">0.43%</span></td>
+                    <td>Focus: decor, curtains, rugs · Colors: grey, natural, blue · Materials: linen, jute</td>
+                </tr>
+                <tr>
+                    <td>2026-W12</td>
+                    <td>5</td>
+                    <td>233.0K</td>
+                    <td>1.6K</td>
+                    <td><span class="eng-badge eng-low">0.56%</span></td>
+                    <td>Focus: bedding, bathroom, kitchen · Colors: brown, natural · Materials: silk, stone, wood · Campaign: new collection</td>
+                </tr>
+                <tr>
+                    <td>2026-W11</td>
+                    <td>5</td>
+                    <td>218.3K</td>
+                    <td>2.6K</td>
+                    <td><span class="eng-badge eng-low">0.53%</span></td>
+                    <td>Focus: bedding, living room, bathroom · Colors: brown, green, white · Materials: velvet, cotton, ceramic · Campaign: seasonal, new collection</td>
+                </tr>
+                <tr>
+                    <td>2026-W10</td>
+                    <td>5</td>
+                    <td>169.1K</td>
+                    <td>2.4K</td>
+                    <td><span class="eng-badge eng-low">0.41%</span></td>
+                    <td>Focus: bedding, decor, living room · Colors: blue, natural, brown · Materials: linen, cotton, ceramic · Campaign: sale, seasonal</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
-    <div class="competitor-panel" id="panel-adidas" style="display:none">
 
-        
-        
-
+    <div class="competitor-panel" id="panel-ikea" style="display:none">
+        <!-- Summary stats -->
         <div class="overview">
             <div class="stat-card">
                 <div class="label">Followers</div>
-                <div class="value">71.0M</div>
+                <div class="value">35.2M</div>
             </div>
             <div class="stat-card">
-                <div class="label">Posts (Mar)</div>
-                <div class="value">15</div>
-                
-                <div class="change down">
-                    -5 vs Feb
-                </div>
+                <div class="label">Posts (4w)</div>
+                <div class="value">17</div>
             </div>
             <div class="stat-card">
                 <div class="label">Avg Likes</div>
-                <div class="value">38.7K</div>
+                <div class="value">38.4K</div>
             </div>
             <div class="stat-card">
                 <div class="label">Engagement</div>
-                <div class="value">1.66%</div>
-                
-                <div class="change up">
-                    +0.11pp vs Feb
-                </div>
+                <div class="value">0.11%</div>
             </div>
         </div>
 
-        <!-- Likes bar chart -->
-        <div class="section-title">Monthly Likes</div>
-        <div class="chart-section">
-            
-            
-            <div class="bar-row">
-                <div class="bar-label">Oct 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 93.0%">
-                        980.0K
-                    </div>
-                </div>
+        <!-- Content summary -->
+        <div class="content-summary">
+            <div class="section-title">Content Themes</div>
+            <div class="summary-text">Focus: bedding, rugs, kitchen · Colors: white, black, natural · Materials: cotton, wool, rattan · Campaign: collaboration, seasonal</div>
+            <div class="theme-tags">
+                <span class="theme-tag color-tag">white</span>
+<span class="theme-tag color-tag">black</span>
+<span class="theme-tag color-tag">natural</span>
+<span class="theme-tag material-tag">cotton</span>
+<span class="theme-tag material-tag">wool</span>
+<span class="theme-tag material-tag">rattan</span>
+<span class="theme-tag category-tag">bedding</span>
+<span class="theme-tag category-tag">rugs</span>
+<span class="theme-tag category-tag">kitchen</span>
+<span class="theme-tag campaign-tag">collaboration</span>
+<span class="theme-tag campaign-tag">seasonal</span>
+            </div>
+        </div>
+
+        <!-- Post grid -->
+        <div class="section-title">Recent Posts</div>
+        <div class="post-grid">
+
+        <a href="https://www.instagram.com/p/demo_ikea_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 6.5K</span>
+                <span>💬 284</span>
+            </div>
+            <div class="post-theme">rugs</div>
+            <div class="post-caption">STOCKHOLM rug in handwoven wool — craft meets comfort</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 75.4K</span>
+                <span>💬 596</span>
+            </div>
+            <div class="post-theme">curtains · black</div>
+            <div class="post-caption">MÖJLIGHET curtains — blackout for better sleep</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 49.6K</span>
+                <span>💬 278</span>
+            </div>
+            <div class="post-theme">kitchen</div>
+            <div class="post-caption">Cook together: METOD kitchen starting at 3495 kr</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_3/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
+            </div>
+            <div class="post-stats">
+                <span>♥ 25.7K</span>
+                <span>💬 979</span>
+            </div>
+            <div class="post-theme">storage</div>
+            <div class="post-caption">KALLAX shelf unit — endless storage possibilities. Now in new colors!</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_4/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 39.5K</span>
+                <span>💬 1.1K</span>
+            </div>
+            <div class="post-theme">bedding · white</div>
+            <div class="post-caption">Spring bedroom makeover with ÄNGSLILJA duvet cover in white cotton</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 57.4K</span>
+                <span>💬 791</span>
+            </div>
+            <div class="post-theme">decor · natural</div>
+            <div class="post-caption">SINNERLIG rattan pendant lamp — natural beauty overhead</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 23.1K</span>
+                <span>💬 1.1K</span>
             </div>
             
-            <div class="bar-row">
-                <div class="bar-label">Nov 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 83.0%">
-                        870.0K
-                    </div>
-                </div>
+            <div class="post-caption">Organize your wardrobe with PAX system. Open plan, open mind.</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Dec 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 100.0%">
-                        1.1M
-                    </div>
-                </div>
+            <div class="post-stats">
+                <span>♥ 11.2K</span>
+                <span>💬 274</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Jan 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 77.0%">
-                        810.0K
-                    </div>
-                </div>
+            <div class="post-theme">tableware · blue</div>
+            <div class="post-caption">GLADOM tray table in blue — small but mighty</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_ikea_3/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Feb 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 69.0%">
-                        720.0K
-                    </div>
-                </div>
+            <div class="post-stats">
+                <span>♥ 26.0K</span>
+                <span>💬 914</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Mar 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-adidas" style="width: 55.0%">
-                        580.0K
-                    </div>
-                </div>
-            </div>
-            
+            <div class="post-theme">bedding</div>
+            <div class="post-caption">Earth Day: discover our sustainable cotton bedding range</div>
+        </a>
+</div>
+
+        <!-- Website insights -->
+        <div class="section-title">Website Homepage</div>
+        <div class="website-info">
+<div class="web-heroes">
+<div class="web-label">Homepage Headlines</div>
+<div class="web-hero-text">Inspiration för ditt hem</div>
+<div class="web-hero-text">Vårens nyheter</div>
+<div class="web-hero-text">KALLAX — Ny i färg</div>
+<div class="web-hero-text">Hållbart hemma</div>
+<div class="web-hero-text">Sovrumsdrömmar</div>
+</div>
+<div class="web-campaigns">
+<div class="web-label">Active Campaigns</div>
+<div class="web-campaign">Vårens nyheter</div>
+<div class="web-campaign">IKEA Family erbjudanden</div>
+<div class="web-campaign">Hållbarhet</div>
+</div>
+</div>
+
+        <!-- Weekly breakdown table -->
+        <div class="section-title" style="margin-top: 20px;">Weekly Breakdown</div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Posts</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>Eng.</th>
+                        <th>Theme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>2026-W13</td>
+                    <td>5</td>
+                    <td>196.7K</td>
+                    <td>3.2K</td>
+                    <td><span class="eng-badge eng-low">0.11%</span></td>
+                    <td>Focus: rugs, curtains, kitchen · Colors: black, white · Materials: wool, cotton · Campaign: collaboration, seasonal</td>
+                </tr>
+                <tr>
+                    <td>2026-W12</td>
+                    <td>5</td>
+                    <td>173.1K</td>
+                    <td>3.9K</td>
+                    <td><span class="eng-badge eng-low">0.10%</span></td>
+                    <td>Focus: decor, tableware, bedding · Colors: natural, blue · Materials: rattan, cotton, wool · Campaign: collaboration, sustainability</td>
+                </tr>
+                <tr>
+                    <td>2026-W11</td>
+                    <td>3</td>
+                    <td>172.9K</td>
+                    <td>2.4K</td>
+                    <td><span class="eng-badge eng-low">0.17%</span></td>
+                    <td>Focus: outdoor, bathroom, bedding · Materials: cotton · Campaign: sustainability, sale</td>
+                </tr>
+                <tr>
+                    <td>2026-W10</td>
+                    <td>4</td>
+                    <td>110.8K</td>
+                    <td>2.5K</td>
+                    <td><span class="eng-badge eng-low">0.08%</span></td>
+                    <td>Focus: storage, bedding, living room · Colors: white · Materials: cotton · Campaign: collaboration, seasonal</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
-    <div class="competitor-panel" id="panel-puma" style="display:none">
 
-        
-        
-
+    <div class="competitor-panel" id="panel-maisonsdumonde" style="display:none">
+        <!-- Summary stats -->
         <div class="overview">
             <div class="stat-card">
                 <div class="label">Followers</div>
-                <div class="value">36.5M</div>
+                <div class="value">5.9M</div>
             </div>
             <div class="stat-card">
-                <div class="label">Posts (Mar)</div>
-                <div class="value">10</div>
-                
-                <div class="change down">
-                    -4 vs Feb
-                </div>
+                <div class="label">Posts (4w)</div>
+                <div class="value">14</div>
             </div>
             <div class="stat-card">
                 <div class="label">Avg Likes</div>
-                <div class="value">19.5K</div>
+                <div class="value">57.6K</div>
             </div>
             <div class="stat-card">
                 <div class="label">Engagement</div>
-                <div class="value">1.16%</div>
-                
-                <div class="change up">
-                    +0.06pp vs Feb
-                </div>
+                <div class="value">0.98%</div>
             </div>
         </div>
 
-        <!-- Likes bar chart -->
-        <div class="section-title">Monthly Likes</div>
-        <div class="chart-section">
-            
-            
-            <div class="bar-row">
-                <div class="bar-label">Oct 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 78.0%">
-                        320.0K
-                    </div>
-                </div>
+        <!-- Content summary -->
+        <div class="content-summary">
+            <div class="section-title">Content Themes</div>
+            <div class="summary-text">Focus: decor, rugs, kids · Colors: natural, white, beige · Materials: linen, rattan, cotton · Campaign: sale, seasonal</div>
+            <div class="theme-tags">
+                <span class="theme-tag color-tag">natural</span>
+<span class="theme-tag color-tag">white</span>
+<span class="theme-tag color-tag">beige</span>
+<span class="theme-tag material-tag">linen</span>
+<span class="theme-tag material-tag">rattan</span>
+<span class="theme-tag material-tag">cotton</span>
+<span class="theme-tag category-tag">decor</span>
+<span class="theme-tag category-tag">rugs</span>
+<span class="theme-tag category-tag">kids</span>
+<span class="theme-tag campaign-tag">sale</span>
+<span class="theme-tag campaign-tag">seasonal</span>
+            </div>
+        </div>
+
+        <!-- Post grid -->
+        <div class="section-title">Recent Posts</div>
+        <div class="post-grid">
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 77.6K</span>
+                <span>💬 521</span>
+            </div>
+            <div class="post-theme">decor</div>
+            <div class="post-caption">Lampe à poser en verre soufflé — pièce unique</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 5.9K</span>
+                <span>💬 195</span>
+            </div>
+            <div class="post-theme">kids</div>
+            <div class="post-caption">Collection enfant : lit cabane en pin</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
+            </div>
+            <div class="post-stats">
+                <span>♥ 12.7K</span>
+                <span>💬 518</span>
+            </div>
+            <div class="post-theme">curtains · natural</div>
+            <div class="post-caption">Rideau en lin lavé naturel — légèreté et élégance</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 75.7K</span>
+                <span>💬 461</span>
             </div>
             
-            <div class="bar-row">
-                <div class="bar-label">Nov 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 67.0%">
-                        275.0K
-                    </div>
-                </div>
+            <div class="post-caption">Miroir en rotin — touche bohème pour votre entrée</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 57.3K</span>
+                <span>💬 814</span>
+            </div>
+            <div class="post-theme">white</div>
+            <div class="post-caption">Parure de lit en percale de coton blanc</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
+            </div>
+            <div class="post-stats">
+                <span>♥ 72.8K</span>
+                <span>💬 974</span>
+            </div>
+            <div class="post-theme">decor</div>
+            <div class="post-caption">Bougie parfumée figue — ambiance méditerranéenne</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_0/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                
+            </div>
+            <div class="post-stats">
+                <span>♥ 68.7K</span>
+                <span>💬 191</span>
+            </div>
+            <div class="post-theme">rugs</div>
+            <div class="post-caption">Tapis en jute tressé — esprit bord de mer</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_1/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
+            </div>
+            <div class="post-stats">
+                <span>♥ 74.8K</span>
+                <span>💬 307</span>
             </div>
             
-            <div class="bar-row">
-                <div class="bar-label">Dec 25</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 100.0%">
-                        410.0K
-                    </div>
-                </div>
+            <div class="post-caption">Bureau en bois de manguier — travaillez avec style</div>
+        </a>
+
+        <a href="https://www.instagram.com/p/demo_maisonsdumonde_2/" target="_blank" class="post-card" rel="noopener">
+            <div class="post-img" style="background-image: url('')">
+                <div class='video-badge'>▶</div>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Jan 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 72.0%">
-                        295.0K
-                    </div>
-                </div>
+            <div class="post-stats">
+                <span>♥ 67.3K</span>
+                <span>💬 1.2K</span>
             </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Feb 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 63.0%">
-                        260.0K
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bar-row">
-                <div class="bar-label">Mar 26</div>
-                <div class="bar-track">
-                    <div class="bar-fill color-puma" style="width: 48.0%">
-                        195.0K
-                    </div>
-                </div>
-            </div>
-            
+            <div class="post-theme">living room · beige</div>
+            <div class="post-caption">Coussins en lin beige et terracotta pour votre salon</div>
+        </a>
+</div>
+
+        <!-- Website insights -->
+        <div class="section-title">Website Homepage</div>
+        <div class="website-info">
+<div class="web-heroes">
+<div class="web-label">Homepage Headlines</div>
+<div class="web-hero-text">Nouvelle Collection Printemps</div>
+<div class="web-hero-text">Styles et Tendances</div>
+<div class="web-hero-text">Le guide outdoor</div>
+<div class="web-hero-text">Inspirations méditerranéennes</div>
+<div class="web-hero-text">Soldes : jusqu&#x27;à -50%</div>
+</div>
+<div class="web-campaigns">
+<div class="web-label">Active Campaigns</div>
+<div class="web-campaign">Collection Printemps 2026</div>
+<div class="web-campaign">Inspiration Méditerranée</div>
+<div class="web-campaign">Soldes Maison</div>
+</div>
+</div>
+
+        <!-- Weekly breakdown table -->
+        <div class="section-title" style="margin-top: 20px;">Weekly Breakdown</div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Posts</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>Eng.</th>
+                        <th>Theme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>2026-W13</td>
+                    <td>3</td>
+                    <td>96.3K</td>
+                    <td>1.2K</td>
+                    <td><span class="eng-badge eng-low">0.56%</span></td>
+                    <td>Focus: decor, kids, curtains · Colors: natural · Materials: glass, linen</td>
+                </tr>
+                <tr>
+                    <td>2026-W12</td>
+                    <td>3</td>
+                    <td>205.8K</td>
+                    <td>2.2K</td>
+                    <td><span class="eng-badge eng-mid">1.18%</span></td>
+                    <td>Focus: decor · Colors: white · Materials: rattan, cotton</td>
+                </tr>
+                <tr>
+                    <td>2026-W11</td>
+                    <td>3</td>
+                    <td>210.8K</td>
+                    <td>1.7K</td>
+                    <td><span class="eng-badge eng-mid">1.20%</span></td>
+                    <td>Focus: rugs, living room · Colors: beige, brown · Materials: jute, wood, linen · Campaign: sale</td>
+                </tr>
+                <tr>
+                    <td>2026-W10</td>
+                    <td>5</td>
+                    <td>293.8K</td>
+                    <td>2.4K</td>
+                    <td><span class="eng-badge eng-mid">1.01%</span></td>
+                    <td>Focus: bedding, tableware, rugs · Colors: natural, green, blue · Materials: linen, rattan, cotton · Campaign: seasonal, collaboration</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
+</div>
 
-    <!-- Cross-competitor comparison -->
-    <div class="section-title">Latest Month Comparison</div>
+<!-- COMPARE VIEW -->
+<div id="view-compare" class="view-section">
+    <div class="section-title">Competitor Comparison (2026-W10 to 2026-W13)</div>
     <div class="comparison-cards">
         
-        
-        <div class="comp-card">
+        <div class="comp-card" style="border-left: 3px solid #c4a35a">
             <div class="comp-header">
-                <span class="comp-name">@nike</span>
-                <span class="comp-followers">307.0M followers</span>
+                <span class="comp-name">Zara Home</span>
+                <span class="comp-followers">8.4M followers</span>
             </div>
             <div class="comp-metrics">
                 <div class="comp-metric">
-                    <div class="val">12</div>
+                    <div class="val">19</div>
                     <div class="lbl">Posts</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">920.0K</div>
+                    <div class="val">761.4K</div>
                     <div class="lbl">Likes</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">
-                        <span class="eng-badge eng-high">
-                            3.21%
-                        </span>
-                    </div>
+                    <div class="val"><span class="eng-badge eng-low">0.48%</span></div>
                     <div class="lbl">Engagement</div>
                 </div>
             </div>
         </div>
-        
-        
-        <div class="comp-card">
+
+        <div class="comp-card" style="border-left: 3px solid #0058a3">
             <div class="comp-header">
-                <span class="comp-name">@adidas</span>
-                <span class="comp-followers">71.0M followers</span>
+                <span class="comp-name">IKEA</span>
+                <span class="comp-followers">35.2M followers</span>
             </div>
             <div class="comp-metrics">
                 <div class="comp-metric">
-                    <div class="val">15</div>
+                    <div class="val">17</div>
                     <div class="lbl">Posts</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">580.0K</div>
+                    <div class="val">653.5K</div>
                     <div class="lbl">Likes</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">
-                        <span class="eng-badge eng-mid">
-                            1.66%
-                        </span>
-                    </div>
+                    <div class="val"><span class="eng-badge eng-low">0.11%</span></div>
                     <div class="lbl">Engagement</div>
                 </div>
             </div>
         </div>
-        
-        
-        <div class="comp-card">
+
+        <div class="comp-card" style="border-left: 3px solid #d4a574">
             <div class="comp-header">
-                <span class="comp-name">@puma</span>
-                <span class="comp-followers">36.5M followers</span>
+                <span class="comp-name">Maisons du Monde</span>
+                <span class="comp-followers">5.9M followers</span>
             </div>
             <div class="comp-metrics">
                 <div class="comp-metric">
-                    <div class="val">10</div>
+                    <div class="val">14</div>
                     <div class="lbl">Posts</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">195.0K</div>
+                    <div class="val">806.7K</div>
                     <div class="lbl">Likes</div>
                 </div>
                 <div class="comp-metric">
-                    <div class="val">
-                        <span class="eng-badge eng-low">
-                            1.16%
-                        </span>
-                    </div>
+                    <div class="val"><span class="eng-badge eng-low">0.98%</span></div>
                     <div class="lbl">Engagement</div>
                 </div>
             </div>
         </div>
-        
-    </div>
-</div>
-
-<!-- MONTHLY VIEW -->
-<div id="view-monthly" class="view-section">
-    <div class="section-title">All Monthly Data</div>
-    
-    <div class="section-title" style="color: var(--text); margin-top: 16px;">@nike</div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Posts</th>
-                    <th>Likes</th>
-                    <th>Comments</th>
-                    <th>Eng. Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    <td>Mar 2026</td>
-                    <td>12</td>
-                    <td>920.0K</td>
-                    <td>21.5K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            3.21%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Feb 2026</td>
-                    <td>16</td>
-                    <td>1.2M</td>
-                    <td>27.8K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            3.11%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Jan 2026</td>
-                    <td>20</td>
-                    <td>1.6M</td>
-                    <td>35.2K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            2.96%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Dec 2025</td>
-                    <td>25</td>
-                    <td>1.9M</td>
-                    <td>41.0K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            3.09%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Nov 2025</td>
-                    <td>18</td>
-                    <td>1.2M</td>
-                    <td>28.5K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            2.88%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Oct 2025</td>
-                    <td>22</td>
-                    <td>1.4M</td>
-                    <td>32.0K</td>
-                    <td>
-                        <span class="eng-badge eng-high">
-                            2.73%
-                        </span>
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="section-title" style="color: var(--text); margin-top: 16px;">@adidas</div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Posts</th>
-                    <th>Likes</th>
-                    <th>Comments</th>
-                    <th>Eng. Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    <td>Mar 2026</td>
-                    <td>15</td>
-                    <td>580.0K</td>
-                    <td>11.2K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.66%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Feb 2026</td>
-                    <td>20</td>
-                    <td>720.0K</td>
-                    <td>14.1K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.55%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Jan 2026</td>
-                    <td>24</td>
-                    <td>810.0K</td>
-                    <td>15.8K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.47%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Dec 2025</td>
-                    <td>28</td>
-                    <td>1.1M</td>
-                    <td>20.1K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.53%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Nov 2025</td>
-                    <td>26</td>
-                    <td>870.0K</td>
-                    <td>16.2K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.48%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Oct 2025</td>
-                    <td>30</td>
-                    <td>980.0K</td>
-                    <td>18.5K</td>
-                    <td>
-                        <span class="eng-badge eng-mid">
-                            1.42%
-                        </span>
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="section-title" style="color: var(--text); margin-top: 16px;">@puma</div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Posts</th>
-                    <th>Likes</th>
-                    <th>Comments</th>
-                    <th>Eng. Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    <td>Mar 2026</td>
-                    <td>10</td>
-                    <td>195.0K</td>
-                    <td>5.1K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.16%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Feb 2026</td>
-                    <td>14</td>
-                    <td>260.0K</td>
-                    <td>6.8K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.10%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Jan 2026</td>
-                    <td>16</td>
-                    <td>295.0K</td>
-                    <td>7.9K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.06%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Dec 2025</td>
-                    <td>20</td>
-                    <td>410.0K</td>
-                    <td>10.8K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.17%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Nov 2025</td>
-                    <td>15</td>
-                    <td>275.0K</td>
-                    <td>7.2K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.05%
-                        </span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Oct 2025</td>
-                    <td>18</td>
-                    <td>320.0K</td>
-                    <td>8.5K</td>
-                    <td>
-                        <span class="eng-badge eng-low">
-                            1.01%
-                        </span>
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
-    </div>
-    
-</div>
-
-<!-- CONFIG VIEW -->
-<div id="view-config" class="view-section">
-    <div class="section-title">How It Works</div>
-
-    <div class="config-block">
-        <h3>competitors.yaml</h3>
-        <pre>competitors:
-  - username: "nike"
-  - username: "adidas"
-  - username: "puma"
-
-months_back: 6
-output_dir: "./output"</pre>
-    </div>
-
-    <div class="config-block">
-        <h3>Run Command</h3>
-        <pre>yourcoverage --config competitors.yaml</pre>
-    </div>
-
-    <div class="config-block">
-        <h3>Output</h3>
-        <pre>output/
-├── competitor_report_2026-03-24.csv
-├── competitor_report_2026-03-24.json
-└── errors_2026-03-24.log  (if any)</pre>
-    </div>
-
-    <div class="config-block">
-        <h3>CLI Options</h3>
-        <pre>--config PATH    Config file (default: competitors.yaml)
---months N       Override months back
---output PATH    Override output directory
---format         csv | json | both
---verbose        Enable debug logging</pre>
-    </div>
-
-    <div class="config-block">
-        <h3>Metrics Per Month</h3>
-        <pre>• post_count       — Total posts published
-• total_likes      — Sum of all likes
-• total_comments   — Sum of all comments
-• avg_likes        — Average likes per post
-• avg_comments     — Average comments per post
-• engagement_rate  — (likes + comments) / (posts × followers)
-• follower_count   — Current snapshot</pre>
     </div>
 </div>
 
 <div class="footer">
-    YourCoverage — Sample preview with mock data
+    YourCoverage — Data collected 2026-W10 to 2026-W13
 </div>
 
 <script>
