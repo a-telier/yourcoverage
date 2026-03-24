@@ -1,0 +1,12 @@
+competitors:
+  - username: "nike"
+  - username: "adidas"
+  - username: "puma"
+  # Full URLs are also accepted:
+  # - username: "https://www.instagram.com/nike/"
+
+# How many months back to analyze (default: 6)
+months_back: 6
+
+# Output directory (default: ./output)
+output_dir: "./output"
