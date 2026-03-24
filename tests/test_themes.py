@@ -1,56 +1,57 @@
 """Tests for theme analysis."""
 
-from yourcoverage.themes import analyze_post, analyze_week, generate_summary
+from yourcoverage.themes import analyze_text, summarize_themes, generate_summary
 
 
-class TestAnalyzePost:
+class TestAnalyzeText:
     def test_detects_colors(self):
-        result = analyze_post("New blue linen bedding collection now available")
-        assert "blue" in result["colors"]
+        result = analyze_text("New blue linen bedding collection now available")
+        labels = {t["label"] for t in result if t["kind"] == "color"}
+        assert "blue" in labels
 
     def test_detects_materials(self):
-        result = analyze_post("Our cotton sheets are back in stock")
-        assert "cotton" in result["materials"]
+        result = analyze_text("Our cotton sheets are back in stock")
+        labels = {t["label"] for t in result if t["kind"] == "material"}
+        assert "cotton" in labels
 
     def test_detects_categories(self):
-        result = analyze_post("Transform your bedroom with our new duvet covers")
-        assert "bedding" in result["categories"]
+        result = analyze_text("Transform your bedroom with our new duvet covers")
+        labels = {t["label"] for t in result if t["kind"] == "category"}
+        assert "bedding" in labels
 
     def test_detects_campaigns(self):
-        result = analyze_post("Discover our new collection for spring")
-        assert "new collection" in result["campaigns"]
-        assert "seasonal" in result["campaigns"]
+        result = analyze_text("Discover our new collection for spring")
+        labels = {t["label"] for t in result if t["kind"] == "campaign"}
+        assert "new collection" in labels
+        assert "seasonal" in labels
 
     def test_multilingual(self):
-        result = analyze_post("Nouvelle collection de linge de lit en lin")
-        assert "linen" in result["materials"]
-        assert "bedding" in result["categories"]
-        assert "new collection" in result["campaigns"]
+        result = analyze_text("Nouvelle collection de linge de lit en lin")
+        labels = {t["label"] for t in result}
+        assert "linen" in labels
+        assert "bedding" in labels
+        assert "new collection" in labels
 
-    def test_empty_caption(self):
-        result = analyze_post("")
-        assert result == {"colors": [], "materials": [], "categories": [], "campaigns": []}
+    def test_empty_text(self):
+        assert analyze_text("") == []
 
 
-class TestAnalyzeWeek:
-    def test_aggregates_themes(self):
-        posts = [
-            {"caption": "Blue cotton bedding for your bedroom"},
-            {"caption": "White linen sheets, so fresh"},
-            {"caption": "Blue velvet cushions for the living room"},
+class TestSummarizeThemes:
+    def test_aggregates(self):
+        tags = [
+            {"kind": "color", "label": "blue", "match_count": 3},
+            {"kind": "color", "label": "white", "match_count": 1},
+            {"kind": "material", "label": "cotton", "match_count": 2},
+            {"kind": "category", "label": "bedding", "match_count": 5},
         ]
-        result = analyze_week(posts)
-        assert "blue" in result["top_colors"]
+        result = summarize_themes(tags)
+        assert result["top_colors"][0] == "blue"
         assert "cotton" in result["top_materials"]
         assert "bedding" in result["top_categories"]
 
-    def test_empty_posts(self):
-        result = analyze_week([])
-        assert result["top_colors"] == []
-
 
 class TestGenerateSummary:
-    def test_generates_readable_summary(self):
+    def test_readable_output(self):
         theme_data = {
             "top_colors": ["blue", "white"],
             "top_materials": ["cotton", "linen"],

@@ -1,2 +1,0 @@
-# Keep weekly JSON snapshots in git but ignore large thumbnail images
-weekly/*/thumbnails/

@@ -1,33 +1,35 @@
 competitors:
   - name: "Zara Home"
-    instagram: "https://www.instagram.com/zarahome"
+    slug: "zarahome"
     website: "https://www.zarahome.com/se/"
     color: "#c4a35a"
 
   - name: "IKEA"
-    instagram: "https://www.instagram.com/ikea"
+    slug: "ikea"
     website: "https://www.ikea.com/se/sv/"
     color: "#0058a3"
 
   - name: "Maisons du Monde"
-    instagram: "https://www.instagram.com/maisonsdumonde"
+    slug: "maisonsdumonde"
     website: "https://www.maisonsdumonde.com/FR/fr"
     color: "#d4a574"
 
-  # Add up to 10 competitors total. Each needs:
-  #   name:      Display name
-  #   instagram: Full Instagram profile URL
-  #   website:   Homepage URL (only index/home page is scraped)
-  #   color:     Hex color for charts (optional, auto-assigned if omitted)
+  # Add more competitors:
+  #   name:    Display name
+  #   slug:    Short identifier (letters/numbers only)
+  #   website: Homepage URL to scrape weekly
+  #   color:   Hex color for the dashboard (optional)
 
-# Data collection settings
+# Collection settings
 collection:
-  weeks_to_keep: 52          # Store up to 52 weeks of data
-  posts_per_profile: 20      # Fetch last N posts per collection
-  download_thumbnails: true  # Save post thumbnail images locally
-  website_screenshot: true   # Capture homepage screenshot
+  weeks_to_keep: 52        # Keep up to 1 year of history
+  screenshot: true         # Capture full-page homepage screenshot each week
+  timeout: 30000           # Page load timeout in milliseconds
 
 # Report settings
 report:
-  output_dir: "./docs"       # Where to write the HTML report
-  default_weeks: "latest-4"  # Default week range for report (latest 4 weeks)
+  output_dir: "./docs"
+  default_weeks: "latest-4"
+
+# Database
+database: "./data/yourcoverage.db"

@@ -1,238 +1,207 @@
-"""Weekly data collector: fetch Instagram posts and website homepage content."""
+"""Weekly website content collector using Playwright."""
 
-import hashlib
 import logging
-import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from urllib.parse import urlparse
 
-import instaloader
-import requests
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright, TimeoutError as PwTimeout
 
 from .config import Competitor, CollectionSettings
-from .storage import save_snapshot, thumbnails_dir, week_label
-from .themes import analyze_post, analyze_week, generate_summary
+from .themes import analyze_text
 
 logger = logging.getLogger(__name__)
 
-DELAY_BETWEEN_PROFILES = 5
-MAX_RETRIES = 3
-RETRY_DELAYS = [60, 120, 300]
+# Campaign-related URL keywords (multilingual)
+_CAMPAIGN_KEYWORDS = [
+    "collection", "campaign", "new", "sale", "promo",
+    "kollektion", "nouveau", "nueva", "nyhet", "erbjudande",
+    "solde", "tendance", "inspiration",
+]
 
 
-def _download_thumbnail(url: str, shortcode: str, week: str) -> str | None:
-    """Download a post thumbnail image and return the local relative path."""
-    try:
-        tdir = thumbnails_dir(week)
-        ext = ".jpg"
-        filename = f"{shortcode}{ext}"
-        filepath = tdir / filename
-        if filepath.exists():
-            return str(filepath.relative_to(Path("data")))
-
-        resp = requests.get(url, timeout=30, headers={
-            "User-Agent": "Mozilla/5.0 (compatible; YourCoverage/1.0)"
-        })
-        resp.raise_for_status()
-        with open(filepath, "wb") as f:
-            f.write(resp.content)
-        return str(filepath.relative_to(Path("data")))
-    except Exception as e:
-        logger.warning("Failed to download thumbnail for %s: %s", shortcode, e)
-        return None
-
-
-def collect_instagram(
+def collect_website(
     competitor: Competitor,
     settings: CollectionSettings,
-    loader: instaloader.Instaloader,
-    week: str | None = None,
+    week: str,
+    screenshots_dir: Path | None = None,
 ) -> dict:
-    """Fetch Instagram posts for a single competitor."""
-    week = week or week_label()
-    username = competitor.instagram_username
+    """Scrape a competitor's homepage using a real browser.
+
+    Returns a dict ready for database.save_collection().
+    """
     result = {
-        "username": username,
-        "name": competitor.name,
         "collected_at": datetime.utcnow().isoformat(),
-        "week": week,
-        "source": "instagram",
-        "profile": {},
-        "posts": [],
+        "page_url": competitor.website_url,
+        "page_title": None,
+        "meta_description": None,
+        "screenshot_path": None,
+        "raw_html_length": 0,
         "error": None,
-    }
-
-    for attempt in range(MAX_RETRIES):
-        try:
-            profile = instaloader.Profile.from_username(loader.context, username)
-            result["profile"] = {
-                "followers": profile.followers,
-                "following": profile.followees,
-                "posts_count": profile.mediacount,
-                "biography": profile.biography,
-                "is_private": profile.is_private,
-                "profile_pic_url": str(profile.profile_pic_url),
-            }
-
-            if profile.is_private:
-                result["error"] = "Profile is private"
-                return result
-
-            # Fetch recent posts
-            count = 0
-            for post in profile.get_posts():
-                if count >= settings.posts_per_profile:
-                    break
-
-                post_data = {
-                    "shortcode": post.shortcode,
-                    "url": f"https://www.instagram.com/p/{post.shortcode}/",
-                    "timestamp": post.date_utc.isoformat(),
-                    "likes": post.likes,
-                    "comments": post.comments,
-                    "caption": post.caption,
-                    "is_video": post.is_video,
-                    "image_url": str(post.url),
-                    "thumbnail_path": None,
-                    "themes": analyze_post(post.caption or ""),
-                }
-
-                # Download thumbnail
-                if settings.download_thumbnails and not post.is_video:
-                    thumb_path = _download_thumbnail(str(post.url), post.shortcode, week)
-                    post_data["thumbnail_path"] = thumb_path
-
-                result["posts"].append(post_data)
-                count += 1
-
-            # Analyze themes across all posts
-            result["theme_summary"] = analyze_week(result["posts"])
-            result["content_summary"] = generate_summary(result["theme_summary"])
-
-            logger.info(
-                "Collected %s: %d posts, %d followers",
-                username, len(result["posts"]), profile.followers,
-            )
-            return result
-
-        except instaloader.exceptions.TooManyRequestsException:
-            delay = RETRY_DELAYS[min(attempt, len(RETRY_DELAYS) - 1)]
-            logger.warning("Rate limited on %s, retrying in %ds", username, delay)
-            time.sleep(delay)
-
-        except instaloader.exceptions.ConnectionException as e:
-            if attempt == 0:
-                logger.warning("Connection error on %s, retrying: %s", username, e)
-                time.sleep(10)
-            else:
-                result["error"] = str(e)
-                return result
-
-        except Exception as e:
-            result["error"] = str(e)
-            return result
-
-    result["error"] = "Max retries exceeded (rate limited)"
-    return result
-
-
-def collect_website(competitor: Competitor, week: str | None = None) -> dict:
-    """Scrape the homepage of a competitor's website for campaign/collection info."""
-    week = week or week_label()
-    result = {
-        "url": competitor.website_url,
-        "collected_at": datetime.utcnow().isoformat(),
-        "week": week,
-        "source": "website",
-        "title": "",
-        "meta_description": "",
-        "hero_texts": [],
-        "campaign_banners": [],
-        "navigation_categories": [],
+        "headlines": [],
+        "campaign_links": [],
+        "nav_categories": [],
         "promo_texts": [],
-        "error": None,
+        "theme_tags": [],
     }
-
-    if not competitor.website_url:
-        result["error"] = "No website URL configured"
-        return result
 
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                          "AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
-            "Accept-Language": "en-US,en;q=0.9,sv;q=0.8,fr;q=0.7",
-        }
-        resp = requests.get(competitor.website_url, timeout=30, headers=headers)
-        resp.raise_for_status()
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                viewport={"width": 1280, "height": 900},
+                locale="en-SE",
+                user_agent=(
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+            )
+            page = context.new_page()
 
-        soup = BeautifulSoup(resp.text, "html.parser")
+            # Navigate
+            logger.info("Loading %s ...", competitor.website_url)
+            page.goto(competitor.website_url, timeout=settings.timeout,
+                      wait_until="domcontentloaded")
 
-        # Page title
-        if soup.title:
-            result["title"] = soup.title.string.strip() if soup.title.string else ""
+            # Wait for content to render (JS-heavy sites)
+            page.wait_for_timeout(3000)
 
-        # Meta description
-        meta = soup.find("meta", attrs={"name": "description"})
-        if meta and meta.get("content"):
-            result["meta_description"] = meta["content"].strip()
+            # Accept cookie banners (common patterns)
+            _dismiss_cookie_banner(page)
+            page.wait_for_timeout(1000)
 
-        # Hero/banner texts (large heading elements, promo banners)
-        for tag in soup.find_all(["h1", "h2", "h3"]):
-            text = tag.get_text(strip=True)
-            if text and len(text) > 3 and len(text) < 200:
-                result["hero_texts"].append(text)
+            # Final URL after redirects
+            result["page_url"] = page.url
 
-        # Links that look like campaign/collection pages
-        for a in soup.find_all("a", href=True):
-            href = a["href"].lower()
-            text = a.get_text(strip=True)
-            if any(kw in href for kw in [
-                "collection", "campaign", "new", "sale", "promo",
-                "kollektion", "nouveau", "nuevo",
-            ]):
-                if text and len(text) > 2 and len(text) < 100:
-                    result["campaign_banners"].append({
+            # Page title
+            result["page_title"] = page.title()
+
+            # Meta description
+            meta = page.query_selector('meta[name="description"]')
+            if meta:
+                result["meta_description"] = meta.get_attribute("content")
+
+            # Raw HTML size
+            html = page.content()
+            result["raw_html_length"] = len(html)
+
+            # --- Extract headlines ---
+            for tag in ["h1", "h2", "h3"]:
+                elements = page.query_selector_all(tag)
+                for el in elements:
+                    text = (el.inner_text() or "").strip()
+                    if text and 3 < len(text) < 200:
+                        result["headlines"].append({"tag": tag, "text": text})
+
+            # Deduplicate headlines preserving order
+            seen = set()
+            unique_headlines = []
+            for h in result["headlines"]:
+                if h["text"] not in seen:
+                    seen.add(h["text"])
+                    unique_headlines.append(h)
+            result["headlines"] = unique_headlines[:30]
+
+            # --- Extract campaign/collection links ---
+            links = page.query_selector_all("a[href]")
+            for link in links:
+                href = link.get_attribute("href") or ""
+                text = (link.inner_text() or "").strip()
+                href_lower = href.lower()
+
+                if not text or len(text) < 3 or len(text) > 100:
+                    continue
+
+                if any(kw in href_lower for kw in _CAMPAIGN_KEYWORDS):
+                    result["campaign_links"].append({
                         "text": text,
-                        "url": a["href"],
+                        "url": _resolve_url(href, result["page_url"]),
                     })
 
-        # Navigation categories (main nav items)
-        nav = soup.find("nav") or soup.find(attrs={"role": "navigation"})
-        if nav:
-            for a in nav.find_all("a"):
-                text = a.get_text(strip=True)
-                if text and len(text) > 2 and len(text) < 50:
-                    result["navigation_categories"].append(text)
+            # Deduplicate campaign links
+            seen_campaigns = set()
+            unique_campaigns = []
+            for cl in result["campaign_links"]:
+                key = cl["text"].lower()
+                if key not in seen_campaigns:
+                    seen_campaigns.add(key)
+                    unique_campaigns.append(cl)
+            result["campaign_links"] = unique_campaigns[:15]
 
-        # Promotional text blocks
-        for tag in soup.find_all(["p", "span", "div"]):
-            text = tag.get_text(strip=True)
-            if text and 20 < len(text) < 300:
+            # --- Extract navigation categories ---
+            nav = page.query_selector("nav") or page.query_selector('[role="navigation"]')
+            if nav:
+                nav_links = nav.query_selector_all("a")
+                seen_nav = set()
+                for a in nav_links:
+                    text = (a.inner_text() or "").strip()
+                    href = a.get_attribute("href") or ""
+                    if text and 2 < len(text) < 50 and text.lower() not in seen_nav:
+                        seen_nav.add(text.lower())
+                        result["nav_categories"].append({
+                            "text": text,
+                            "url": _resolve_url(href, result["page_url"]),
+                        })
+                result["nav_categories"] = result["nav_categories"][:25]
+
+            # --- Extract promotional text blocks ---
+            all_text_elements = page.query_selector_all(
+                "p, [class*='promo'], [class*='banner'], [class*='hero'], "
+                "[class*='campaign'], [class*='collection']"
+            )
+            promo_keywords = [
+                "collection", "new", "sale", "free", "offer", "discover",
+                "shop", "explore", "kampanj", "nouveau", "découvr", "solde",
+                "printemps", "spring", "summer", "sommar",
+            ]
+            seen_promos = set()
+            for el in all_text_elements:
+                text = (el.inner_text() or "").strip()
+                if not text or len(text) < 20 or len(text) > 300:
+                    continue
                 text_lower = text.lower()
-                if any(kw in text_lower for kw in [
-                    "collection", "new", "sale", "free", "offer", "discover",
-                    "shop", "explore", "kampanj", "nouveau", "découvr",
-                ]):
-                    if text not in result["promo_texts"]:
+                if any(kw in text_lower for kw in promo_keywords):
+                    if text not in seen_promos:
+                        seen_promos.add(text)
                         result["promo_texts"].append(text)
                         if len(result["promo_texts"]) >= 10:
                             break
 
-        # Deduplicate
-        result["hero_texts"] = list(dict.fromkeys(result["hero_texts"]))[:15]
-        result["campaign_banners"] = result["campaign_banners"][:10]
-        result["navigation_categories"] = list(dict.fromkeys(result["navigation_categories"]))[:20]
+            # --- Screenshot ---
+            if settings.screenshot and screenshots_dir:
+                screenshots_dir.mkdir(parents=True, exist_ok=True)
+                filename = f"{competitor.slug}_{week}.png"
+                screenshot_path = screenshots_dir / filename
+                page.screenshot(path=str(screenshot_path), full_page=True)
+                result["screenshot_path"] = str(
+                    screenshot_path.relative_to(screenshots_dir.parent.parent)
+                )
+                logger.info("Screenshot saved: %s", screenshot_path)
 
-        logger.info("Scraped website %s: %d hero texts, %d campaigns",
-                     competitor.website_url,
-                     len(result["hero_texts"]),
-                     len(result["campaign_banners"]))
+            # --- Theme analysis ---
+            # Combine all extracted text for theme analysis
+            all_text = " ".join(
+                [h["text"] for h in result["headlines"]]
+                + [cl["text"] for cl in result["campaign_links"]]
+                + result["promo_texts"]
+                + ([result["meta_description"]] if result["meta_description"] else [])
+            )
+            themes = analyze_text(all_text)
+            result["theme_tags"] = themes
 
+            browser.close()
+
+            logger.info(
+                "Collected %s: %d headlines, %d campaigns, %d themes",
+                competitor.name,
+                len(result["headlines"]),
+                len(result["campaign_links"]),
+                len(result["theme_tags"]),
+            )
+
+    except PwTimeout as e:
+        result["error"] = f"Page load timeout: {e}"
+        logger.warning("Timeout for %s: %s", competitor.website_url, e)
     except Exception as e:
         result["error"] = str(e)
         logger.warning("Failed to scrape %s: %s", competitor.website_url, e)
@@ -243,61 +212,50 @@ def collect_website(competitor: Competitor, week: str | None = None) -> dict:
 def collect_all(
     competitors: list[Competitor],
     settings: CollectionSettings,
-    week: str | None = None,
-    login_user: str | None = None,
-    login_pass: str | None = None,
+    week: str,
+    screenshots_dir: Path | None = None,
 ) -> dict[str, dict]:
-    """Collect data for all competitors and save weekly snapshots."""
-    week = week or week_label()
-
-    loader = instaloader.Instaloader(
-        download_pictures=False,
-        download_videos=False,
-        download_video_thumbnails=False,
-        download_geotags=False,
-        download_comments=False,
-        save_metadata=False,
-    )
-
-    # Optional Instagram login for better rate limits
-    if login_user and login_pass:
-        try:
-            loader.login(login_user, login_pass)
-            logger.info("Logged in to Instagram as %s", login_user)
-        except Exception as e:
-            logger.warning("Instagram login failed: %s", e)
-
+    """Collect website data for all competitors."""
     results = {}
-
     for i, competitor in enumerate(competitors):
-        logger.info("Collecting %d/%d: %s", i + 1, len(competitors), competitor.name)
-
-        # Collect Instagram data
-        ig_data = collect_instagram(competitor, settings, loader, week)
-
-        # Collect website data
-        web_data = collect_website(competitor, week)
-
-        # Combine and save
-        snapshot = {
-            "competitor": {
-                "name": competitor.name,
-                "instagram_username": competitor.instagram_username,
-                "instagram_url": competitor.instagram_url,
-                "website_url": competitor.website_url,
-                "color": competitor.color,
-            },
-            "week": week,
-            "collected_at": datetime.utcnow().isoformat(),
-            "instagram": ig_data,
-            "website": web_data,
-        }
-
-        save_snapshot(competitor.instagram_username, snapshot, week)
-        results[competitor.instagram_username] = snapshot
-
-        # Rate limiting between profiles
-        if i < len(competitors) - 1:
-            time.sleep(DELAY_BETWEEN_PROFILES)
-
+        logger.info("Collecting %d/%d: %s", i + 1, len(competitors),
+                     competitor.name)
+        data = collect_website(competitor, settings, week, screenshots_dir)
+        results[competitor.slug] = data
     return results
+
+
+def _dismiss_cookie_banner(page):
+    """Try to dismiss common cookie consent banners."""
+    selectors = [
+        'button:has-text("Accept")',
+        'button:has-text("Acceptera")',
+        'button:has-text("Accepter")',
+        'button:has-text("Accept all")',
+        'button:has-text("Godkänn")',
+        '[id*="cookie"] button',
+        '[class*="cookie"] button',
+        '[id*="consent"] button',
+        '[class*="consent"] button',
+    ]
+    for selector in selectors:
+        try:
+            btn = page.query_selector(selector)
+            if btn and btn.is_visible():
+                btn.click()
+                return
+        except Exception:
+            continue
+
+
+def _resolve_url(href: str, base_url: str) -> str:
+    """Resolve a relative URL against the base URL."""
+    if href.startswith(("http://", "https://")):
+        return href
+    if href.startswith("//"):
+        return "https:" + href
+    if href.startswith("/"):
+        from urllib.parse import urlparse
+        parsed = urlparse(base_url)
+        return f"{parsed.scheme}://{parsed.netloc}{href}"
+    return href
