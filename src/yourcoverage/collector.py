@@ -122,10 +122,13 @@ def _is_hero_image(src: str, alt: str, width=None, height=None) -> bool:
     if any(p in src_lower for p in skip_patterns):
         return False
     # Check explicit dimensions
-    if width and int(width) < _MIN_IMAGE_WIDTH:
-        return False
-    if height and int(height) < 100:
-        return False
+    try:
+        if width and str(width).isdigit() and int(width) < _MIN_IMAGE_WIDTH:
+            return False
+        if height and str(height).isdigit() and int(height) < 100:
+            return False
+    except (ValueError, TypeError):
+        pass
     return True
 
 
