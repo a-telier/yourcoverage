@@ -29,7 +29,7 @@ def write_report(config: Config, db: Database,
     output_dir = config.report.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
     filepath = output_dir / "index.html"
-    with open(filepath, "w") as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(html)
     return filepath
 
