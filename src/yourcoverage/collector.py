@@ -236,20 +236,7 @@ def _collect_playwright(
                     result["headlines"].append({"tag": tag, "text": text})
         result["headlines"] = _dedup(result["headlines"], "text", 30)
 
-        # Hero images
-        for img in page.query_selector_all("img[src]"):
-            src = img.get_attribute("src") or ""
-            alt = (img.get_attribute("alt") or "").strip()
-            width = img.get_attribute("width")
-            height = img.get_attribute("height")
-            if _is_hero_image(src, alt, width, height):
-                result["hero_images"].append({
-                    "src": _resolve_url(src, result["page_url"]),
-                    "alt": alt,
-                })
-        result["hero_images"] = _dedup(result["hero_images"], "src", 12)
-
-        # Campaign links — match by URL path OR link text content
+        # Campaign links + their images — match by URL path OR text
         for link in page.query_selector_all("a[href]"):
             href = link.get_attribute("href") or ""
             text = (link.inner_text() or "").strip()
@@ -260,11 +247,38 @@ def _collect_playwright(
             url_match = any(kw in href_lower for kw in _CAMPAIGN_URL_KEYWORDS)
             text_match = any(kw in text_lower for kw in _CAMPAIGN_TEXT_KEYWORDS)
             if url_match or text_match:
-                result["campaign_links"].append({
+                campaign = {
                     "text": text,
                     "url": _resolve_url(href, result["page_url"]),
-                })
+                }
+                result["campaign_links"].append(campaign)
+                # Grab image inside this campaign link
+                img = link.query_selector("img[src], img[data-src]")
+                if img:
+                    src = img.get_attribute("src") or img.get_attribute("data-src") or ""
+                    alt = (img.get_attribute("alt") or text).strip()
+                    if src and _is_hero_image(src, alt):
+                        result["hero_images"].append({
+                            "src": _resolve_url(src, result["page_url"]),
+                            "alt": alt,
+                        })
         result["campaign_links"] = _dedup(result["campaign_links"], "text", 20)
+
+        # Also grab images from hero/banner/carousel sections
+        for selector in [
+            "[class*='hero'] img", "[class*='banner'] img",
+            "[class*='carousel'] img", "[class*='slider'] img",
+            "[class*='slide'] img", "[class*='swiper'] img",
+        ]:
+            for img in page.query_selector_all(selector):
+                src = img.get_attribute("src") or img.get_attribute("data-src") or ""
+                alt = (img.get_attribute("alt") or "").strip()
+                if src and _is_hero_image(src, alt):
+                    result["hero_images"].append({
+                        "src": _resolve_url(src, result["page_url"]),
+                        "alt": alt,
+                    })
+        result["hero_images"] = _dedup(result["hero_images"], "src", 12)
 
         # Nav categories
         nav = page.query_selector("nav") or page.query_selector('[role="navigation"]')
@@ -360,41 +374,7 @@ def _collect_http(
                 result["headlines"].append({"tag": tag, "text": text})
     result["headlines"] = _dedup(result["headlines"], "text", 30)
 
-    # Hero images
-    for img in soup.find_all("img", src=True):
-        src = img.get("src", "")
-        alt = img.get("alt", "").strip()
-        width = img.get("width")
-        height = img.get("height")
-        if _is_hero_image(src, alt, width, height):
-            result["hero_images"].append({
-                "src": _resolve_url(src, base_url),
-                "alt": alt,
-            })
-    # Also check srcset and data-src (lazy-loaded images)
-    for img in soup.find_all("img", attrs={"data-src": True}):
-        src = img.get("data-src", "")
-        alt = img.get("alt", "").strip()
-        if _is_hero_image(src, alt):
-            result["hero_images"].append({
-                "src": _resolve_url(src, base_url),
-                "alt": alt,
-            })
-    # picture > source elements
-    for source in soup.find_all("source", srcset=True):
-        srcset = source.get("srcset", "")
-        # Take the largest image from srcset
-        parts = srcset.split(",")
-        if parts:
-            src = parts[-1].strip().split(" ")[0]
-            if _is_hero_image(src, ""):
-                result["hero_images"].append({
-                    "src": _resolve_url(src, base_url),
-                    "alt": "",
-                })
-    result["hero_images"] = _dedup(result["hero_images"], "src", 12)
-
-    # Campaign links — match by URL path OR link text content
+    # Campaign links + their images
     for a in soup.find_all("a", href=True):
         href = a["href"]
         text = a.get_text(strip=True)
@@ -409,7 +389,46 @@ def _collect_http(
                 "text": text,
                 "url": _resolve_url(href, base_url),
             })
+            # Grab image inside this campaign link
+            img = a.find("img")
+            if img:
+                src = img.get("src") or img.get("data-src") or ""
+                alt = (img.get("alt") or text).strip()
+                if src and _is_hero_image(src, alt):
+                    result["hero_images"].append({
+                        "src": _resolve_url(src, base_url),
+                        "alt": alt,
+                    })
+            # Also check picture > source inside link
+            source = a.find("source", srcset=True)
+            if source and not img:
+                srcset = source.get("srcset", "")
+                parts = srcset.split(",")
+                if parts:
+                    src = parts[-1].strip().split(" ")[0]
+                    if _is_hero_image(src, ""):
+                        result["hero_images"].append({
+                            "src": _resolve_url(src, base_url),
+                            "alt": text,
+                        })
     result["campaign_links"] = _dedup(result["campaign_links"], "text", 20)
+
+    # Also grab images from hero/banner/carousel sections
+    for class_kw in ["hero", "banner", "carousel", "slider", "slide", "swiper"]:
+        for container in soup.find_all(
+            attrs={"class": lambda c: c and class_kw in " ".join(c).lower()
+                   if isinstance(c, list) else class_kw in str(c).lower()
+                   if c else False}
+        ):
+            for img in container.find_all("img"):
+                src = img.get("src") or img.get("data-src") or ""
+                alt = (img.get("alt") or "").strip()
+                if src and _is_hero_image(src, alt):
+                    result["hero_images"].append({
+                        "src": _resolve_url(src, base_url),
+                        "alt": alt,
+                    })
+    result["hero_images"] = _dedup(result["hero_images"], "src", 12)
 
     # Nav categories
     nav = soup.find("nav") or soup.find(attrs={"role": "navigation"})
