@@ -1,11 +1,23 @@
 """CLI entry point for the website competitor content analyzer."""
 
 import argparse
+import io
 import logging
 import sys
 from pathlib import Path
 
 from .config import load_config
+
+
+def _ensure_utf8_stdout():
+    """Fix Windows console encoding for Unicode output."""
+    if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+        sys.stdout = io.TextIOWrapper(
+            sys.stdout.buffer, encoding="utf-8", errors="replace"
+        )
+        sys.stderr = io.TextIOWrapper(
+            sys.stderr.buffer, encoding="utf-8", errors="replace"
+        )
 
 
 def cmd_collect(args, config):
@@ -138,7 +150,7 @@ def cmd_query(args, config):
         print(f"Data for {year}-{month:02d}:")
         for coll in data:
             name = coll.get("competitor_name", coll.get("slug", "?"))
-            print(f"\n  {name} — {coll['week']}:")
+            print(f"\n  {name} - {coll['week']}:")
             for h in coll.get("headlines", [])[:5]:
                 print(f"    [{h['tag']}] {h['text']}")
             for cl in coll.get("campaign_links", [])[:3]:
@@ -166,6 +178,8 @@ def cmd_query(args, config):
 
 
 def main() -> None:
+    _ensure_utf8_stdout()
+
     parser = argparse.ArgumentParser(
         description="Website Competitor Content Analyzer"
     )
