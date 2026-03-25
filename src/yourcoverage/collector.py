@@ -14,17 +14,38 @@ from .themes import analyze_text
 
 logger = logging.getLogger(__name__)
 
-# Campaign-related URL keywords (multilingual)
-_CAMPAIGN_KEYWORDS = [
+# Campaign-related URL path keywords
+_CAMPAIGN_URL_KEYWORDS = [
     "collection", "campaign", "new", "sale", "promo",
     "kollektion", "nouveau", "nueva", "nyhet", "erbjudande",
-    "solde", "tendance", "inspiration",
+    "solde", "tendance", "inspiration", "jardin", "garden",
+    "outdoor", "exterieur", "seasonal", "spring", "summer",
+    "canape", "sofa", "decoration", "mobilier", "furniture",
+]
+
+# Campaign-related link TEXT keywords (multilingual)
+_CAMPAIGN_TEXT_KEYWORDS = [
+    # French
+    "decouvrez", "nouvelle", "collection", "jardin", "canape",
+    "decoration", "exterieur", "mobilier", "tendance", "promo",
+    "solde", "offre", "nouveaute",
+    # English
+    "discover", "new", "collection", "garden", "outdoor",
+    "furniture", "campaign", "sale", "offer", "shop now",
+    "explore", "see all", "view all",
+    # Swedish
+    "upptack", "kollektion", "tradgard", "utomhus", "mobel",
+    "kampanj", "erbjudande", "nyheter",
+    # Spanish
+    "descubr", "coleccion", "jardin", "mueble", "oferta",
 ]
 
 _PROMO_KEYWORDS = [
     "collection", "new", "sale", "free", "offer", "discover",
     "shop", "explore", "kampanj", "nouveau", "decouvr", "solde",
-    "printemps", "spring", "summer", "sommar",
+    "printemps", "spring", "summer", "sommar", "jardin", "garden",
+    "canape", "sofa", "outdoor", "exterieur", "decoration",
+    "mobilier", "furniture", "tendance",
 ]
 
 _USER_AGENT = (
@@ -95,6 +116,15 @@ def _run_theme_analysis(result: dict) -> None:
         + ([result["meta_description"]] if result["meta_description"] else [])
     )
     result["theme_tags"] = analyze_text(all_text)
+
+
+def _normalize(text: str) -> str:
+    """Lowercase and strip accents for keyword matching."""
+    import unicodedata
+    text = text.lower()
+    # Decompose accented chars and remove combining marks
+    nfkd = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in nfkd if not unicodedata.combining(c))
 
 
 def _resolve_url(href: str, base_url: str) -> str:
@@ -219,18 +249,22 @@ def _collect_playwright(
                 })
         result["hero_images"] = _dedup(result["hero_images"], "src", 12)
 
-        # Campaign links
+        # Campaign links — match by URL path OR link text content
         for link in page.query_selector_all("a[href]"):
             href = link.get_attribute("href") or ""
             text = (link.inner_text() or "").strip()
-            if not text or len(text) < 3 or len(text) > 100:
+            if not text or len(text) < 3 or len(text) > 150:
                 continue
-            if any(kw in href.lower() for kw in _CAMPAIGN_KEYWORDS):
+            href_lower = href.lower()
+            text_lower = _normalize(text)
+            url_match = any(kw in href_lower for kw in _CAMPAIGN_URL_KEYWORDS)
+            text_match = any(kw in text_lower for kw in _CAMPAIGN_TEXT_KEYWORDS)
+            if url_match or text_match:
                 result["campaign_links"].append({
                     "text": text,
                     "url": _resolve_url(href, result["page_url"]),
                 })
-        result["campaign_links"] = _dedup(result["campaign_links"], "text", 15)
+        result["campaign_links"] = _dedup(result["campaign_links"], "text", 20)
 
         # Nav categories
         nav = page.query_selector("nav") or page.query_selector('[role="navigation"]')
@@ -360,18 +394,22 @@ def _collect_http(
                 })
     result["hero_images"] = _dedup(result["hero_images"], "src", 12)
 
-    # Campaign links
+    # Campaign links — match by URL path OR link text content
     for a in soup.find_all("a", href=True):
         href = a["href"]
         text = a.get_text(strip=True)
-        if not text or len(text) < 3 or len(text) > 100:
+        if not text or len(text) < 3 or len(text) > 150:
             continue
-        if any(kw in href.lower() for kw in _CAMPAIGN_KEYWORDS):
+        href_lower = href.lower()
+        text_lower = _normalize(text)
+        url_match = any(kw in href_lower for kw in _CAMPAIGN_URL_KEYWORDS)
+        text_match = any(kw in text_lower for kw in _CAMPAIGN_TEXT_KEYWORDS)
+        if url_match or text_match:
             result["campaign_links"].append({
                 "text": text,
                 "url": _resolve_url(href, base_url),
             })
-    result["campaign_links"] = _dedup(result["campaign_links"], "text", 15)
+    result["campaign_links"] = _dedup(result["campaign_links"], "text", 20)
 
     # Nav categories
     nav = soup.find("nav") or soup.find(attrs={"role": "navigation"})
