@@ -63,9 +63,10 @@ def cmd_collect(args, config):
             print(f"  x {slug}: {error}")
         else:
             n_headlines = len(data.get("headlines", []))
+            n_images = len(data.get("hero_images", []))
             n_campaigns = len(data.get("campaign_links", []))
             n_themes = len(data.get("theme_tags", []))
-            print(f"  + {slug}: {n_headlines} headlines, "
+            print(f"  + {slug}: {n_headlines} headlines, {n_images} images, "
                   f"{n_campaigns} campaigns, {n_themes} themes")
             if data.get("screenshot_path"):
                 print(f"    screenshot: {data['screenshot_path']}")

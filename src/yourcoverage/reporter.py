@@ -166,6 +166,22 @@ def _render_week_card(week: str, coll: dict | None, comp) -> str:
              f'<span class="week-meta">{_esc(coll.get("page_title", ""))}</span>',
              f'</div>']
 
+    # Hero images
+    images = coll.get("hero_images", [])
+    if images:
+        parts.append('<div class="week-images">')
+        for img in images[:6]:
+            alt = _esc(img.get("alt") or "")
+            parts.append(
+                f'<div class="hero-img-wrapper">'
+                f'<img src="{_esc(img["src"])}" alt="{alt}" '
+                f'class="hero-img" loading="lazy" '
+                f'onerror="this.parentElement.style.display=\'none\'">'
+                f'{"<div class=hero-img-alt>" + alt + "</div>" if alt else ""}'
+                f'</div>'
+            )
+        parts.append('</div>')
+
     # Headlines
     headlines = coll.get("headlines", [])
     if headlines:
@@ -410,6 +426,25 @@ def _build_html(week_range, generated, comp_tabs, comp_panels,
             font-size: 12px; color: var(--muted); padding: 4px 0;
             line-height: 1.4; border-left: 2px solid var(--border);
             padding-left: 8px; margin-bottom: 4px;
+        }}
+
+        /* Hero images */
+        .week-images {{
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8px; margin-bottom: 12px;
+        }}
+        .hero-img-wrapper {{
+            border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--border);
+        }}
+        .hero-img {{
+            width: 100%; height: auto; display: block;
+            max-height: 200px; object-fit: cover;
+        }}
+        .hero-img-alt {{
+            font-size: 10px; color: var(--muted); padding: 4px 6px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }}
 
         /* Week themes */

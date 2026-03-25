@@ -23,7 +23,7 @@ _CAMPAIGN_KEYWORDS = [
 
 _PROMO_KEYWORDS = [
     "collection", "new", "sale", "free", "offer", "discover",
-    "shop", "explore", "kampanj", "nouveau", "découvr", "solde",
+    "shop", "explore", "kampanj", "nouveau", "decouvr", "solde",
     "printemps", "spring", "summer", "sommar",
 ]
 
@@ -32,6 +32,25 @@ _USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/120.0.0.0 Safari/537.36"
 )
+
+# Full browser-like headers to avoid 403s
+_HTTP_HEADERS = {
+    "User-Agent": _USER_AGENT,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9,sv;q=0.8,fr;q=0.7",
+    "Accept-Encoding": "gzip, deflate, br",
+    "DNT": "1",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Cache-Control": "max-age=0",
+}
+
+# Minimum image dimensions (pixels in src URL or attributes) to count as hero
+_MIN_IMAGE_WIDTH = 300
 
 
 def _empty_result(competitor: Competitor) -> dict:
@@ -48,6 +67,7 @@ def _empty_result(competitor: Competitor) -> dict:
         "nav_categories": [],
         "promo_texts": [],
         "theme_tags": [],
+        "hero_images": [],
     }
 
 
@@ -71,6 +91,7 @@ def _run_theme_analysis(result: dict) -> None:
         [h["text"] for h in result["headlines"]]
         + [cl["text"] for cl in result["campaign_links"]]
         + result["promo_texts"]
+        + [img.get("alt", "") for img in result["hero_images"] if img.get("alt")]
         + ([result["meta_description"]] if result["meta_description"] else [])
     )
     result["theme_tags"] = analyze_text(all_text)
@@ -78,11 +99,34 @@ def _run_theme_analysis(result: dict) -> None:
 
 def _resolve_url(href: str, base_url: str) -> str:
     """Resolve a relative URL against the base URL."""
+    if not href:
+        return ""
     if href.startswith(("http://", "https://")):
         return href
     if href.startswith("//"):
         return "https:" + href
     return urljoin(base_url, href)
+
+
+def _is_hero_image(src: str, alt: str, width=None, height=None) -> bool:
+    """Check if an image is likely a hero/campaign image (not an icon)."""
+    if not src:
+        return False
+    src_lower = src.lower()
+    # Skip tiny images, icons, tracking pixels, svgs
+    skip_patterns = [
+        ".svg", "icon", "logo", "pixel", "track", "spacer",
+        "1x1", "blank", "spinner", "loading", "arrow", "chevron",
+        "data:image", "base64",
+    ]
+    if any(p in src_lower for p in skip_patterns):
+        return False
+    # Check explicit dimensions
+    if width and int(width) < _MIN_IMAGE_WIDTH:
+        return False
+    if height and int(height) < 100:
+        return False
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -129,8 +173,8 @@ def _collect_playwright(
         for selector in [
             'button:has-text("Accept")', 'button:has-text("Acceptera")',
             'button:has-text("Accepter")', 'button:has-text("Accept all")',
-            'button:has-text("Godkänn")', '[id*="cookie"] button',
-            '[class*="cookie"] button', '[id*="consent"] button',
+            '[id*="cookie"] button', '[class*="cookie"] button',
+            '[id*="consent"] button',
         ]:
             try:
                 btn = page.query_selector(selector)
@@ -158,6 +202,19 @@ def _collect_playwright(
                 if text and 3 < len(text) < 200:
                     result["headlines"].append({"tag": tag, "text": text})
         result["headlines"] = _dedup(result["headlines"], "text", 30)
+
+        # Hero images
+        for img in page.query_selector_all("img[src]"):
+            src = img.get_attribute("src") or ""
+            alt = (img.get_attribute("alt") or "").strip()
+            width = img.get_attribute("width")
+            height = img.get_attribute("height")
+            if _is_hero_image(src, alt, width, height):
+                result["hero_images"].append({
+                    "src": _resolve_url(src, result["page_url"]),
+                    "alt": alt,
+                })
+        result["hero_images"] = _dedup(result["hero_images"], "src", 12)
 
         # Campaign links
         for link in page.query_selector_all("a[href]"):
@@ -232,9 +289,11 @@ def _collect_http(
     logger.info("Loading %s (HTTP fallback) ...", competitor.website_url)
     timeout_sec = settings.timeout / 1000
 
-    resp = requests.get(
+    session = requests.Session()
+    session.headers.update(_HTTP_HEADERS)
+
+    resp = session.get(
         competitor.website_url,
-        headers={"User-Agent": _USER_AGENT},
         timeout=timeout_sec,
         allow_redirects=True,
     )
@@ -256,6 +315,7 @@ def _collect_http(
         result["meta_description"] = meta["content"]
 
     # Headlines
+    base_url = result["page_url"]
     for tag in ["h1", "h2", "h3"]:
         for el in soup.find_all(tag):
             text = el.get_text(strip=True)
@@ -263,8 +323,41 @@ def _collect_http(
                 result["headlines"].append({"tag": tag, "text": text})
     result["headlines"] = _dedup(result["headlines"], "text", 30)
 
+    # Hero images
+    for img in soup.find_all("img", src=True):
+        src = img.get("src", "")
+        alt = img.get("alt", "").strip()
+        width = img.get("width")
+        height = img.get("height")
+        if _is_hero_image(src, alt, width, height):
+            result["hero_images"].append({
+                "src": _resolve_url(src, base_url),
+                "alt": alt,
+            })
+    # Also check srcset and data-src (lazy-loaded images)
+    for img in soup.find_all("img", attrs={"data-src": True}):
+        src = img.get("data-src", "")
+        alt = img.get("alt", "").strip()
+        if _is_hero_image(src, alt):
+            result["hero_images"].append({
+                "src": _resolve_url(src, base_url),
+                "alt": alt,
+            })
+    # picture > source elements
+    for source in soup.find_all("source", srcset=True):
+        srcset = source.get("srcset", "")
+        # Take the largest image from srcset
+        parts = srcset.split(",")
+        if parts:
+            src = parts[-1].strip().split(" ")[0]
+            if _is_hero_image(src, ""):
+                result["hero_images"].append({
+                    "src": _resolve_url(src, base_url),
+                    "alt": "",
+                })
+    result["hero_images"] = _dedup(result["hero_images"], "src", 12)
+
     # Campaign links
-    base_url = result["page_url"]
     for a in soup.find_all("a", href=True):
         href = a["href"]
         text = a.get_text(strip=True)
@@ -294,20 +387,16 @@ def _collect_http(
 
     # Promo texts
     seen_promos = set()
-    promo_selectors = soup.find_all(
-        ["p", "div", "span"],
-        class_=lambda c: c and any(
-            kw in c.lower() for kw in
-            ["promo", "banner", "hero", "campaign", "collection"]
-        ) if isinstance(c, str) else (
-            any(any(kw in cls.lower() for kw in
-                    ["promo", "banner", "hero", "campaign", "collection"])
-                for cls in c)
-        ) if c else False
-    )
-    # Also check regular paragraphs
-    promo_selectors.extend(soup.find_all("p"))
-    for el in promo_selectors:
+    for el in soup.find_all(["p", "div", "span"]):
+        classes = el.get("class", [])
+        class_str = " ".join(classes) if isinstance(classes, list) else str(classes)
+        has_promo_class = any(
+            kw in class_str.lower()
+            for kw in ["promo", "banner", "hero", "campaign", "collection"]
+        )
+        is_p = el.name == "p"
+        if not has_promo_class and not is_p:
+            continue
         text = el.get_text(strip=True)
         if not text or len(text) < 20 or len(text) > 300:
             continue
@@ -347,8 +436,9 @@ def collect_website(
         _run_theme_analysis(result)
 
         logger.info(
-            "Collected %s: %d headlines, %d campaigns, %d themes",
+            "Collected %s: %d headlines, %d images, %d campaigns, %d themes",
             competitor.name, len(result["headlines"]),
+            len(result["hero_images"]),
             len(result["campaign_links"]), len(result["theme_tags"]),
         )
 
@@ -379,6 +469,6 @@ def collect_all(
 logger.info("Checking Playwright availability...")
 _pw_ok = _playwright_available()
 if _pw_ok:
-    logger.info("Playwright available — using headless browser")
+    logger.info("Playwright available - using headless browser")
 else:
-    logger.info("Playwright unavailable — using HTTP fallback")
+    logger.info("Playwright unavailable - using HTTP fallback")

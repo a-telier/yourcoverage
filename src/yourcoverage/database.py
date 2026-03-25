@@ -74,10 +74,19 @@ CREATE TABLE IF NOT EXISTS theme_tags (
     match_count INTEGER NOT NULL DEFAULT 1
 );
 
+CREATE TABLE IF NOT EXISTS hero_images (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    collection_id INTEGER NOT NULL REFERENCES collections(id),
+    src TEXT NOT NULL,
+    alt TEXT,
+    position INTEGER NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_collections_week ON collections(week);
 CREATE INDEX IF NOT EXISTS idx_collections_competitor ON collections(competitor_id);
 CREATE INDEX IF NOT EXISTS idx_headlines_collection ON headlines(collection_id);
 CREATE INDEX IF NOT EXISTS idx_theme_tags_collection ON theme_tags(collection_id);
+CREATE INDEX IF NOT EXISTS idx_hero_images_collection ON hero_images(collection_id);
 """
 
 
@@ -149,7 +158,7 @@ class Database:
         if existing:
             cid = existing["id"]
             for table in ("headlines", "campaign_links", "nav_categories",
-                          "promo_texts", "theme_tags"):
+                          "promo_texts", "theme_tags", "hero_images"):
                 self.conn.execute(f"DELETE FROM {table} WHERE collection_id=?",
                                   (cid,))
             self.conn.execute("DELETE FROM collections WHERE id=?", (cid,))
@@ -211,6 +220,14 @@ class Database:
                 (cid, tag["kind"], tag["label"], tag.get("match_count", 1))
             )
 
+        # Hero images
+        for i, img in enumerate(page_data.get("hero_images", [])):
+            self.conn.execute(
+                "INSERT INTO hero_images (collection_id, src, alt, position) "
+                "VALUES (?, ?, ?, ?)",
+                (cid, img["src"], img.get("alt"), i)
+            )
+
         self.conn.commit()
         return cid
 
@@ -251,6 +268,12 @@ class Database:
         coll["theme_tags"] = [dict(r) for r in self.conn.execute(
             "SELECT kind, label, match_count FROM theme_tags "
             "WHERE collection_id=? ORDER BY match_count DESC",
+            (cid,)
+        ).fetchall()]
+
+        coll["hero_images"] = [dict(r) for r in self.conn.execute(
+            "SELECT src, alt FROM hero_images "
+            "WHERE collection_id=? ORDER BY position",
             (cid,)
         ).fetchall()]
 
